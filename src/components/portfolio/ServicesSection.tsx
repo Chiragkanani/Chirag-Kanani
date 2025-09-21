@@ -156,14 +156,14 @@ const ServicesSection = () => {
             <p className="text-muted-foreground mb-6">
               Let's discuss how I can help bring your ideas to life with clean, efficient, and scalable solutions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg neon-glow hover-float transition-all">
                 Get Started Today
               </button>
               <button className="px-6 py-3 glass rounded-lg hover-float transition-all">
                 View Portfolio
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

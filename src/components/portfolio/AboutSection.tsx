@@ -1,4 +1,4 @@
-import { Code, Coffee, Heart, Lightbulb } from "lucide-react";
+import { Code, Coffee, Heart, Lightbulb,Leaf } from "lucide-react";
 import aboutImage from "@/assets/about-illustration.webp";
 
 const AboutSection = () => {
@@ -48,7 +48,8 @@ const AboutSection = () => {
               <p>
                 My journey in web development started with a curiosity about how things work under the hood. 
                 Today, I work with cutting-edge technologies like <span className="text-primary">Laravel</span>, 
-                <span className="text-secondary"> Vue.js</span>, and <span className="text-tech">Node.js</span> to 
+                <span className="text-secondary"> Vue.js</span>, 
+                <span className="text-orange-400"> React.js</span>, and <span className="text-tech">Node.js</span> to 
                 bring ideas to life.
               </p>
               
@@ -65,7 +66,7 @@ const AboutSection = () => {
                 <div className="text-sm text-muted-foreground">Projects</div>
               </div>
               <div className="text-center glass p-4 rounded-xl hover-float">
-                <div className="text-2xl font-bold text-secondary">5+</div>
+                <div className="text-2xl font-bold text-secondary">3+</div>
                 <div className="text-sm text-muted-foreground">Years Exp</div>
               </div>
               <div className="text-center glass p-4 rounded-xl hover-float">
@@ -82,11 +83,15 @@ const AboutSection = () => {
               </div>
               <div className="flex items-center gap-2 glass px-4 py-2 rounded-lg hover-float">
                 <Heart className="w-4 h-4 text-secondary" />
-                <span className="text-sm">User-Focused</span>
+                <span className="text-sm">Fast Learner</span>
               </div>
               <div className="flex items-center gap-2 glass px-4 py-2 rounded-lg hover-float">
-                <Lightbulb className="w-4 h-4 text-tech" />
+                <Leaf className="w-4 h-4 text-tech" />
                 <span className="text-sm">Innovation</span>
+              </div>
+              <div className="flex items-center gap-2 glass px-4 py-2 rounded-lg hover-float">
+                <Lightbulb className="w-4 h-4 text-orange-400" />
+                <span className="text-sm">Problem Solver</span>
               </div>
             </div>
           </div>

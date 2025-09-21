@@ -4,10 +4,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Mail, href: "mailto:hello@developer.com", label: "Email" },
+    { icon: Github, href: "https://github.com/Chiragkanani", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/chirag-kanani-5ab463245/", label: "LinkedIn" },
+    // { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Mail, href: "mailto:chiragkanani2003@gmail.com", label: "Email" },
   ];
 
   const quickLinks = [
@@ -38,7 +38,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
                 <Code2 className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold gradient-text">DevPortfolio</span>
+              <span className="text-2xl font-bold gradient-text">Chirag Kanani</span>
             </div>
             
             <p className="text-muted-foreground leading-relaxed max-w-md">
@@ -52,6 +52,7 @@ const Footer = () => {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="__blank"
                   className="w-10 h-10 glass rounded-lg flex items-center justify-center hover-float group transition-all duration-300 hover:neon-glow"
                   aria-label={social.label}
                 >
@@ -84,7 +85,7 @@ const Footer = () => {
             <div className="space-y-3 text-sm">
               <div className="text-muted-foreground">
                 <div className="font-medium text-foreground">Email</div>
-                hello@developer.com
+                chiragkanani2003@gmail.com
               </div>
               <div className="text-muted-foreground">
                 <div className="font-medium text-foreground">Location</div>
@@ -102,7 +103,7 @@ const Footer = () => {
         <div className="border-t border-glass-border mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>© {currentYear} DevPortfolio. Made with</span>
+              <span>© {currentYear} chirag kanani. Made with</span>
               <Heart className="w-4 h-4 text-red-500 animate-pulse" />
               <span>by a passionate developer</span>
             </div>
