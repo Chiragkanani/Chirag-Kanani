@@ -48,7 +48,7 @@ const ServicesSection = () => {
         "Interactive user interfaces",
         "Progressive Web Apps (PWA)"
       ],
-      highlighted: true
+      highlighted: false
     },
     {
       title: "Scalable Solutions",
