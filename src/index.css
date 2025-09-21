@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Professional Portfolio Dark Theme Design System */
+
+@layer base {
+  :root {
+    /* Dark Portfolio Color Palette */
+    --background: 220 13% 9%;
+    --foreground: 220 9% 95%;
+
+    --card: 220 13% 12%;
+    --card-foreground: 220 9% 95%;
+
+    --popover: 220 13% 12%;
+    --popover-foreground: 220 9% 95%;
+
+    --primary: 193 100% 50%;
+    --primary-foreground: 220 13% 9%;
+
+    --secondary: 280 100% 70%;
+    --secondary-foreground: 220 13% 9%;
+
+    --accent: 193 100% 50%;
+    --accent-foreground: 220 13% 9%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 60%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 9% 95%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 193 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Portfolio-specific colors */
+    --hero-gradient-start: 193 100% 50%;
+    --hero-gradient-end: 280 100% 70%;
+    --glass-bg: 220 13% 12%;
+    --glass-border: 220 13% 25%;
+    --neon-glow: 193 100% 50%;
+    --neon-purple: 280 100% 70%;
+    --tech-accent: 120 100% 50%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--hero-gradient-start)), hsl(var(--hero-gradient-end)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--glass-bg) / 0.8), hsl(var(--glass-bg) / 0.4));
+    --gradient-glow: radial-gradient(circle at center, hsl(var(--neon-glow) / 0.3), transparent 70%);
+    
+    /* Shadows and effects */
+    --shadow-glass: 0 8px 32px hsl(var(--background) / 0.4);
+    --shadow-neon: 0 0 20px hsl(var(--neon-glow) / 0.4);
+    --shadow-purple: 0 0 20px hsl(var(--neon-purple) / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+}
+
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    background: hsl(var(--glass-bg) / 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border) / 0.2);
+    box-shadow: var(--shadow-glass);
+  }
+  
+  /* Neon glow effects */
+  .neon-glow {
+    box-shadow: var(--shadow-neon);
+  }
+  
+  .neon-purple {
+    box-shadow: var(--shadow-purple);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Hover animations */
+  .hover-float {
+    transition: var(--transition-smooth);
+  }
+  
+  .hover-float:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 3px;
+  }
+}
+
+@layer utilities {
+  /* Animation keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes glow {
+    0%, 100% { box-shadow: var(--shadow-neon); }
+    50% { box-shadow: 0 0 30px hsl(var(--neon-glow) / 0.6); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
