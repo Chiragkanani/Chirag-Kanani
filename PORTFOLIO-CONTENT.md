@@ -2,7 +2,7 @@
 
 ## Case study intake
 
-The repository contained six generic project examples with stock images and placeholder links. They were removed rather than presented as Chirag’s work. Add a case study only after confirming its details.
+The repository contained six generic project examples with stock images and placeholder links. They were removed rather than presented as Chirag’s work. The public portfolio keeps a clear work section, but real case studies still need verified source details.
 
 For each project, supply:
 
@@ -25,4 +25,4 @@ The public profile could not be fetched during the redesign. The employers, titl
 
 ## Contact form
 
-The existing EmailJS integration and environment variable names are retained. Configure `VITE_YOUR_SERVICE_ID`, `VITE_YOUR_TEMPLATE_ID` and `VITE_YOUR_PUBLIC_KEY` in each deployment environment. The EmailJS template should accept `name`, `email`, `project_type`, `subject` and `message` fields. The form reports a sent state only after EmailJS resolves successfully.
+The existing EmailJS integration and environment variable names are retained. Configure `VITE_YOUR_SERVICE_ID`, `VITE_YOUR_TEMPLATE_ID` and `VITE_YOUR_PUBLIC_KEY` in each deployment environment. The EmailJS template should accept `name`, `email`, `project_type`, `subject` and `message` fields, and its recipient must be the inbox that should receive inquiries. A configured environment variable does not confirm that the EmailJS service exists or that its Gmail authorization is valid. The last reported provider errors were “The service ID not found” and “Gmail_API: Invalid grant”; verify the service ID in the EmailJS dashboard and reconnect the Gmail account, then update the Vercel environment variables and redeploy. The form reports a sent state only after EmailJS resolves successfully. When delivery fails, it keeps the form values and offers a prefilled email draft instead.

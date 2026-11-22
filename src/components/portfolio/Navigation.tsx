@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const navItems = [
+  { label: "Home", href: "#home", section: "home" },
   { label: "Work", href: "#work", section: "work" },
-  { label: "Approach", href: "#approach", section: "approach" },
   { label: "Expertise", href: "#expertise", section: "expertise" },
+  { label: "Approach", href: "#approach", section: "approach" },
+  { label: "Experience", href: "#experience", section: "experience" },
   { label: "About", href: "#about", section: "about" },
 ];
 
@@ -13,7 +15,7 @@ const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const sections = ["home", ...navItems.map((item) => item.section), "experience", "contact"]
+    const sections = [...navItems.map((item) => item.section), "skills", "workflow", "contact"]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
     const observer = new IntersectionObserver((entries) => {
@@ -53,13 +55,16 @@ const Navigation = () => {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a className="wordmark" href="#home" onClick={closeMenu} aria-label="Chirag Kanani, home"><span className="wordmark-symbol">c<span>.</span></span><span>Chirag Kanani</span></a>
+        <a className="wordmark" href="#home" onClick={closeMenu} aria-label="Chirag Kanani, home"><span>Chirag Kanani</span></a>
         <button className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
         <nav id="primary-navigation" className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
-          {navItems.map((item) => <a key={item.section} href={item.href} aria-current={active === item.section ? "location" : undefined} onClick={closeMenu}>{item.label}</a>)}
-          <a className="nav-contact" href="#contact" onClick={closeMenu}>Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a>
+          {navItems.map((item) => {
+            const isCurrent = active === item.section || (item.section === "approach" && active === "workflow") || (item.section === "expertise" && active === "skills");
+            return <a key={item.section} href={item.href} aria-current={isCurrent ? "location" : undefined} onClick={closeMenu}>{item.label}</a>;
+          })}
+          <a className="nav-contact" href="#contact" aria-current={active === "contact" ? "location" : undefined} onClick={closeMenu}>Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a>
         </nav>
       </div>
       <div className="reading-line" aria-hidden="true" />

@@ -5,7 +5,7 @@ const HeroSection = () => (
     <div className="hero-grid" aria-hidden="true" />
     <div className="hero-inner">
       <div className="hero-copy">
-        <p className="hero-kicker"><span className="signal-dot" /> Senior full stack developer</p>
+        <p className="hero-kicker"><span className="signal-dot" /> <span>Chirag Kanani</span><span className="hero-kicker-divider" aria-hidden="true" />Senior Full Stack Developer</p>
         <h1 id="hero-title">I build<br className="narrow-break" /> software<br /><span>that moves work forward.</span></h1>
         <p className="hero-intro">Web and mobile products, from interface to API. I adapt to the problem, choose practical tools, and use AI-assisted workflows to move from idea to working software.</p>
         <div className="hero-actions">
@@ -30,14 +30,14 @@ const HeroSection = () => (
           <div className="system-node node-explore"><small>02</small><b>Explore</b><span>possible paths</span></div>
           <div className="system-node node-build"><small>03</small><b>Build</b><span>the right pieces</span></div>
           <div className="system-node node-review"><small>04</small><b>Review</b><span>and refine</span></div>
-          <div className="system-core"><span>CK</span><i>ENGINEERING<br />WITH INTENT</i></div>
+          <div className="system-core"><i>ENGINEERING<br />WITH INTENT</i></div>
           <span className="system-mark mark-a">01 / 04</span>
           <span className="system-mark mark-b">WEB · MOBILE · API</span>
         </div>
         <p className="system-caption">A clear path from requirements to a working release.</p>
       </div>
     </div>
-    <div className="hero-index" aria-hidden="true"><span>CK / 2026</span><span>01 — 08</span></div>
+    <div className="hero-index" aria-hidden="true"><span>WEB · MOBILE · SYSTEMS</span><span>RESEARCH · BUILD</span></div>
   </section>
 );
 
