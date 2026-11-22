@@ -1,228 +1,80 @@
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, MessageSquare, Send, MapPin, Phone, Loader } from "lucide-react";
-import { toast } from "sonner";
-import contactIcon from "@/assets/contact-icon.webp";
 import emailjs from "@emailjs/browser";
+import { ArrowUpRight, Mail, Send } from "lucide-react";
+
+type SubmissionState = "idle" | "sending" | "success" | "error" | "unconfigured";
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [state, setState] = useState<SubmissionState>("idle");
+  const [projectType, setProjectType] = useState("");
 
-  const contactForm = useRef();
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { VITE_YOUR_SERVICE_ID, VITE_YOUR_TEMPLATE_ID, VITE_YOUR_PUBLIC_KEY } = import.meta.env;
+    if (!VITE_YOUR_SERVICE_ID || !VITE_YOUR_TEMPLATE_ID || !VITE_YOUR_PUBLIC_KEY || !formRef.current) {
+      setState("unconfigured");
+      return;
+    }
+    setState("sending");
     try {
-      e.preventDefault();
-      // Handle form submission here
-      setIsLoading(true);
-      const response = await emailjs.sendForm(
-        import.meta.env.VITE_YOUR_SERVICE_ID,
-        import.meta.env.VITE_YOUR_TEMPLATE_ID,
-        contactForm.current,
-        {
-          publicKey: import.meta.env.VITE_YOUR_PUBLIC_KEY,
-        }
-      );
-      setIsLoading(false);
-      toast.success("Message sent successfully! I'll get back to you soon.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error) {
-      toast.error("Something went wrong. Try again later..!");
+      await emailjs.sendForm(VITE_YOUR_SERVICE_ID, VITE_YOUR_TEMPLATE_ID, formRef.current, { publicKey: VITE_YOUR_PUBLIC_KEY });
+      setState("success");
+      setProjectType("");
+      formRef.current.reset();
+    } catch (error: unknown) {
+      const details: { status?: unknown; text?: unknown } = typeof error === "object" && error !== null
+        ? error as { status?: unknown; text?: unknown }
+        : { text: error };
+      console.error("EmailJS contact form failed:", {
+        status: details.status,
+        message: details.text,
+      });
+      setState("error");
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const message = {
+    idle: "Your message will go directly to my inbox.",
+    sending: "Sending your message…",
+    success: "Message sent. Thanks for reaching out.",
+    error: "The message could not be sent. Please email me directly.",
+    unconfigured: "The contact form is not configured on this deployment. Please email me directly.",
+  }[state];
 
   return (
-    <section id="contact" className="py-20 relative">
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse-glow" />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl animate-pulse-glow"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
-
-      <div className="container mx-auto px-6 relative">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Get In <span className="gradient-text">Touch</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind? Let's discuss how we can work together to
-            create something amazing.
-          </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto mt-6" />
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold">
-                Let's Start a Conversation
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                I'm always excited to work on new projects and collaborate with
-                innovative teams. Whether you need a full-stack application, API
-                development, or technical consultation, I'm here to help bring
-                your vision to life.
-              </p>
-            </div>
-
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 glass p-4 rounded-xl hover-float">
-                <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="font-medium">Email</div>
-                  <div className="text-sm text-muted-foreground">
-                    chiragkanani2003@gmail.com
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 glass p-4 rounded-xl hover-float">
-                <div className="w-10 h-10 bg-secondary/20 rounded-lg flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <div className="font-medium">Phone</div>
-                  <div className="text-sm text-muted-foreground">
-                    +91 9054687227
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 glass p-4 rounded-xl hover-float">
-                <div className="w-10 h-10 bg-tech/20 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-tech" />
-                </div>
-                <div>
-                  <div className="font-medium">Location</div>
-                  <div className="text-sm text-muted-foreground">
-                    Remote / Available Worldwide
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Animated Contact Icon */}
-            <div className="relative pt-8">
-              <div className="relative w-48 h-48 mx-auto">
-                <img
-                  src={contactIcon}
-                  alt="Contact illustration"
-                  className="w-full h-full object-contain rounded-2xl animate-float"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-full blur-xl animate-pulse-glow" />
-              </div>
-            </div>
+    <section className="contact-section section-wrap" id="contact" aria-labelledby="contact-title">
+      <div className="contact-layout">
+        <div className="contact-copy">
+          <p className="section-index">Start a conversation</p>
+          <h2 id="contact-title">Have a project<br />to <span>move forward?</span></h2>
+          <p className="contact-lede">Tell me what you’re building, where you need support, or what’s getting in the way. I’m open to remote freelance, contract and project-based collaboration.</p>
+          <a className="contact-email" href="mailto:chiragkanani2003@gmail.com">chiragkanani2003@gmail.com <ArrowUpRight size={18} aria-hidden="true" /></a>
+          <div className="contact-socials">
+            <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href="https://github.com/Chiragkanani" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a>
           </div>
-
-          {/* Contact Form */}
-          <div className="glass p-8 rounded-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <MessageSquare className="w-6 h-6 text-primary" />
-              <h3 className="text-xl font-semibold">Send me a message</h3>
-            </div>
-
-            <form
-              ref={contactForm}
-              onSubmit={handleSubmit}
-              className="space-y-6"
-            >
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Name *</label>
-                  <Input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    required
-                    className="glass border-glass-border focus:ring-primary focus:border-primary"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Email *</label>
-                  <Input
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="your.email@example.com"
-                    required
-                    className="glass border-glass-border focus:ring-primary focus:border-primary"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Subject *</label>
-                <Input
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Project inquiry, consultation, etc."
-                  required
-                  className="glass border-glass-border focus:ring-primary focus:border-primary"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Message *</label>
-                <Textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell me about your project, timeline, and requirements..."
-                  rows={5}
-                  required
-                  className="glass border-glass-border focus:ring-primary focus:border-primary resize-none"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isLoading}
-                className="w-full neon-glow hover-float group"
-              >
-                {isLoading ? (
-                  <Loader className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                ) : (
-                  <>
-                    <Send className="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center text-sm text-muted-foreground">
-              I typically respond within 24 hours
-            </div>
-          </div>
+          <p className="contact-availability"><span className="signal-dot" /> Open to project collaboration</p>
         </div>
+        <form className="contact-form" ref={formRef} onSubmit={handleSubmit}>
+          <div className="form-heading"><span>Send a note</span><Mail size={18} aria-hidden="true" /></div>
+          <div className="form-pair">
+            <label>Name<input name="name" autoComplete="name" required placeholder="Your name" /></label>
+            <label>Email<input name="email" type="email" autoComplete="email" required placeholder="you@example.com" /></label>
+          </div>
+          <label>What do you need help with? <span className="optional">Optional</span>
+            <select name="project_type" value={projectType} onChange={(event) => setProjectType(event.target.value)}>
+              <option value="">Choose a project type</option>
+              <option>Web application</option><option>Mobile application</option><option>API or integration</option><option>Existing product</option><option>Other</option>
+            </select>
+          </label>
+          <input type="hidden" name="subject" value={`Portfolio inquiry${projectType ? ` — ${projectType}` : ""}`} />
+          <label>Message<textarea name="message" rows={5} required placeholder="A little about the project, the challenge, or the support you need…" /></label>
+          <button className="button button-primary form-submit" type="submit" disabled={state === "sending"}>
+            {state === "sending" ? "Sending…" : "Send message"}<Send size={16} aria-hidden="true" />
+          </button>
+          <p className={`form-status state-${state}`} role="status" aria-live="polite">{message}{state !== "idle" && state !== "sending" && state !== "success" ? <> <a href="mailto:chiragkanani2003@gmail.com">Email me directly</a>.</> : null}</p>
+        </form>
       </div>
     </section>
   );

@@ -1,0 +1,56 @@
+import { ArrowRight, Check, Compass, Lightbulb, ScanSearch, Wrench } from "lucide-react";
+
+const phases = [
+  { icon: ScanSearch, title: "Explore", text: "Research a new framework, trace an unfamiliar codebase, or compare possible approaches." },
+  { icon: Lightbulb, title: "Shape", text: "Turn the useful findings into a plan that fits the product, constraints and existing system." },
+  { icon: Wrench, title: "Build", text: "Use AI assistance for implementation, refinement and repetitive work while steering the engineering choices." },
+  { icon: Check, title: "Review", text: "Debug, validate behavior, question generated code and refine the result before delivery." },
+];
+
+const steps = [
+  ["Understand", "Clarify the need, audience and expected result."],
+  ["Explore", "Compare suitable tools and ways to solve the problem."],
+  ["Plan", "Set implementation priorities and technical direction."],
+  ["Build", "Develop the interface, backend, APIs or mobile features."],
+  ["Validate", "Review behavior, troubleshoot and refine the work."],
+  ["Deliver", "Share a functional result and communicate what’s next."],
+];
+
+const ProcessSection = () => (
+  <>
+    <section className="ai-section section-wrap" id="approach" aria-labelledby="ai-title">
+      <div className="ai-heading">
+        <p className="section-index">A modern engineering workflow</p>
+        <h2 id="ai-title">AI can speed up the work.<br /><span>Engineering still leads.</span></h2>
+        <p>I use AI-assisted tools to move through research, implementation and debugging with more range. I stay accountable for the decisions, the code and the final behavior.</p>
+      </div>
+      <div className="ai-loop">
+        {phases.map(({ icon: Icon, title, text }, index) => (
+          <article className="ai-phase" key={title}>
+            <div className="phase-top"><span>0{index + 1}</span><Icon size={18} aria-hidden="true" /></div>
+            <h3>{title}</h3><p>{text}</p>
+            {index < phases.length - 1 && <ArrowRight className="phase-arrow" size={18} aria-hidden="true" />}
+          </article>
+        ))}
+        <div className="ai-footer"><span>AI supports the loop</span><span className="ai-footer-line" /><span>My judgment closes it</span></div>
+      </div>
+    </section>
+    <section className="process-section section-wrap" aria-labelledby="process-title">
+      <div className="process-heading">
+        <p className="section-index">How I work</p>
+        <h2 id="process-title">A flexible path<br />to <span>the right result.</span></h2>
+        <p>Every project has its own constraints. This is a useful way to think through the work, not a rigid checklist.</p>
+        <Compass className="process-compass" size={82} strokeWidth={0.8} aria-hidden="true" />
+      </div>
+      <ol className="process-list">
+        {steps.map(([title, text], index) => <li key={title}>
+          <span className="process-number">0{index + 1}</span>
+          <div><h3>{title}</h3><p>{text}</p></div>
+          <span className="process-dot" aria-hidden="true" />
+        </li>)}
+      </ol>
+    </section>
+  </>
+);
+
+export default ProcessSection;

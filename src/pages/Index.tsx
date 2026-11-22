@@ -5,28 +5,26 @@ import SkillsSection from "@/components/portfolio/SkillsSection";
 import ProjectsSection from "@/components/portfolio/ProjectsSection";
 import ServicesSection from "@/components/portfolio/ServicesSection";
 import ContactSection from "@/components/portfolio/ContactSection";
+import ExperienceSection from "@/components/portfolio/ExperienceSection";
+import ProcessSection from "@/components/portfolio/ProcessSection";
 import Footer from "@/components/portfolio/Footer";
 
-const Index = () => {
-  return (
-    <div className="min-h-screen bg-background custom-scrollbar">
-      <Navigation />
-      
-      <main>
-        <section id="home">
-          <HeroSection />
-        </section>
-        
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ServicesSection />
-        <ContactSection />
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
+const Index = () => (
+  <div className="portfolio-shell">
+    <a className="skip-link" href="#main">Skip to content</a>
+    <Navigation />
+    <main id="main">
+      <HeroSection />
+      <ProjectsSection />
+      <AboutSection />
+      <ProcessSection />
+      <ServicesSection />
+      <SkillsSection />
+      <ExperienceSection />
+      <ContactSection />
+    </main>
+    <Footer />
+  </div>
+);
 
 export default Index;
