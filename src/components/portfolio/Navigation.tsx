@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "#home", section: "home" },
@@ -56,8 +56,12 @@ const Navigation = () => {
     <header className="site-header">
       <div className="header-inner">
         <a className="wordmark" href="#home" onClick={closeMenu} aria-label="Chirag Kanani, home"><span>Chirag Kanani</span></a>
-        <button className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        <button className={`menu-toggle${menuOpen ? " is-open" : ""}`} type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
+          <span className="menu-toggle-icon" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
         </button>
         <nav id="primary-navigation" className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
           {navItems.map((item) => {

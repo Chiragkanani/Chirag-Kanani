@@ -1,95 +1,175 @@
-import { ArrowUpRight, Plus } from "lucide-react";
-import arusuvaiPreview from "@/assets/arusuvai-cloud-kitchen-preview.jpg";
+import { useState } from "react";
+import { ArrowUpRight, Layers, Plus } from "lucide-react";
+import { projects, type ProjectItem } from "@/data/projects";
+import ProjectDetailModal from "@/components/portfolio/ProjectDetailModal";
 
-const projectFeatures = [
-  "Menu and signature dishes",
-  "Weekly and monthly meal plans",
-  "Catering, events and bulk orders",
-  "Food gallery and testimonials",
-  "FAQ and WhatsApp enquiries",
-];
+const featuredProjects = projects.filter((project) => project.tier === "featured");
+const additionalProjects = projects.filter((project) => project.tier === "additional");
 
-const developmentHighlights = [
-  "Responsive presentation for the menu, plans and services.",
-  "Clear paths between food offerings, catering information and enquiries.",
-  "Direct WhatsApp contact options for customer questions and requests.",
-];
+const ProjectsSection = () => {
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
-const ProjectsSection = () => (
-  <section className="work-section section-wrap" id="work" aria-labelledby="work-title">
-    <div className="section-heading work-heading" data-reveal>
-      <div>
-        <p className="section-index">Featured project / 01</p>
-        <h2 id="work-title">Selected <span>work</span></h2>
-      </div>
-      <p className="section-intro">A closer look at a live business website, from its menu and meal plans to customer enquiries.</p>
-    </div>
-
-    <article className="work-ledger arusuvai-project" data-reveal aria-labelledby="arusuvai-title">
-      <div className="project-visual">
-        <a
-          className="project-preview"
-          href="https://arusuvai-cloudkitchen.netlify.app/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Open the Arusuvai Cloud Kitchen website"
-        >
-          <img
-            src={arusuvaiPreview}
-            alt="Arusuvai's official brand preview, featuring its name and South Indian meal offering"
-            width="1200"
-            height="630"
-            loading="lazy"
-            decoding="async"
-          />
-          <span className="project-preview-hint">View live website <ArrowUpRight size={15} aria-hidden="true" /></span>
-        </a>
-        <div className="project-visual-caption">
-          <span>Official project preview</span>
-          <span>Business website</span>
+  return (
+    <section className="work-section section-wrap" id="work" aria-labelledby="work-title">
+      <div className="section-heading work-heading" data-reveal>
+        <div>
+          <p className="section-index">Selected work / {String(projects.length).padStart(2, "0")}</p>
+          <h2 id="work-title">Selected <span>work</span></h2>
         </div>
+        <p className="section-intro">
+          Real websites and software interfaces—focused on structure, usability, and production implementation.
+        </p>
       </div>
 
-      <div className="ledger-copy project-copy">
-        <div className="project-meta"><span>Frontend development</span><span>Responsive experience</span></div>
-        <h3 id="arusuvai-title">Arusuvai<br />Cloud Kitchen</h3>
-        <p className="project-overview">A digital storefront for a South Indian cloud kitchen in Saligramam, Chennai. It brings the food offering, meal plans and catering information together with clear ways to get in touch.</p>
+      <div className="work-featured-list">
+        {featuredProjects.map((project, index) => {
+          const primaryShot = project.screenshots[0];
+          const shotCount = project.screenshots.length;
+          const screenshotLabel = shotCount === 1 ? "screenshot" : "screenshots";
+          const viewLabel = shotCount === 1 ? "view" : "views";
 
-        <div className="project-actions">
-          <a className="button button-primary project-live-link" href="https://arusuvai-cloudkitchen.netlify.app/" target="_blank" rel="noreferrer">
-            Visit live project <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
-        </div>
+          return (
+            <article
+              key={project.slug}
+              className={`work-ledger${index % 2 === 1 ? " work-ledger--reversed" : ""}`}
+              data-reveal
+              aria-labelledby={`project-title-${project.slug}`}
+            >
+              <div className="project-visual">
+                <button
+                  type="button"
+                  className="project-preview"
+                  onClick={() => setSelectedProject(project)}
+                  aria-label={`Inspect ${project.name} ${screenshotLabel} and case study (${shotCount} ${viewLabel})`}
+                >
+                  <div className="project-frame">
+                    <div className="project-frame-bar" aria-hidden="true">
+                      <div className="project-frame-dots">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                      <span className="project-frame-domain">{project.domainLabel ?? project.name}</span>
+                      <span className="project-frame-counter">{shotCount} {viewLabel}</span>
+                    </div>
+                    {primaryShot && (
+                      <div
+                        className={`project-frame-media${primaryShot.orientation ? ` project-frame-media--${primaryShot.orientation}` : ""}`}
+                      >
+                        <img
+                          src={primaryShot.src}
+                          alt={primaryShot.alt}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <span className="project-preview-hint">
+                    <Layers size={14} aria-hidden="true" />
+                    Inspect project · {shotCount} {screenshotLabel}
+                  </span>
+                </button>
 
-        <details className="project-details">
-          <summary>
-            <span>Explore project details</span>
-            <Plus className="project-disclosure-icon" size={17} aria-hidden="true" />
-          </summary>
-          <div className="project-details-content">
-            <section className="project-detail-block">
-              <h4>Purpose</h4>
-              <p>Present the cloud kitchen's menu and services in one place, then guide visitors toward a meal plan, catering enquiry or direct contact.</p>
-            </section>
+                <div className="project-visual-caption">
+                  <span>{primaryShot?.label ?? "Application interface"}</span>
+                  <span>{project.type}</span>
+                </div>
+              </div>
 
-            <section className="project-detail-block">
-              <h4>What the site presents</h4>
-              <ul className="project-features">
-                {projectFeatures.map((feature) => <li key={feature}>{feature}</li>)}
-              </ul>
-            </section>
+              <div className="ledger-copy project-copy">
+                <div className="project-meta">
+                  <span>{project.number}</span>
+                  <span>{project.category}</span>
+                </div>
 
-            <section className="project-detail-block project-development">
-              <h4>Development focus</h4>
-              <ul>
-                {developmentHighlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
-              </ul>
-            </section>
+                <h3 id={`project-title-${project.slug}`}>{project.name}</h3>
+                <p className="project-overview">{project.summary}</p>
+
+                <ul className="project-tech-list" aria-label="Technologies used">
+                  {project.technologies.map((tech) => (
+                    <li key={tech}>{tech}</li>
+                  ))}
+                </ul>
+
+                <div className="project-actions">
+                  <button
+                    type="button"
+                    className="button button-primary project-explore-btn"
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    Explore case study
+                    <Plus size={16} aria-hidden="true" />
+                  </button>
+
+                  {project.liveUrl && (
+                    <a
+                      className="button button-quiet project-live-link"
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Visit live site <ArrowUpRight size={16} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {additionalProjects.length > 0 && (
+        <div className="work-archive" data-reveal aria-label="Additional projects">
+          <div className="work-archive-head">
+            <p className="section-index">More builds</p>
+            <p>Smaller utilities, client websites, and focused engineering work.</p>
           </div>
-        </details>
-      </div>
-    </article>
-  </section>
-);
+          <div className="work-archive-list">
+            {additionalProjects.map((project) => (
+              <article key={project.slug} className="work-archive-row">
+                <span className="work-archive-num">{project.number}</span>
+                <div className="work-archive-main">
+                  <div className="work-archive-title">
+                    <h3>{project.name}</h3>
+                    <span>{project.category}</span>
+                  </div>
+                  <p>{project.summary}</p>
+                  <ul className="project-tech-list project-tech-list--compact" aria-label="Technologies used">
+                    {project.technologies.map((tech) => (
+                      <li key={tech}>{tech}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="work-archive-actions">
+                  <button
+                    type="button"
+                    className="button button-quiet"
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    Details <Plus size={15} aria-hidden="true" />
+                  </button>
+                  {project.liveUrl && (
+                    <a
+                      className="text-link"
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Open ${project.name} live site`}
+                    >
+                      Live <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <ProjectDetailModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+    </section>
+  );
+};
 
 export default ProjectsSection;

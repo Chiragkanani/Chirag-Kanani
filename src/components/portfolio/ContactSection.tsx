@@ -71,13 +71,13 @@ const ContactSection = () => {
         <div className="contact-copy" data-reveal>
           <p className="section-index">Start a conversation</p>
           <h2 id="contact-title">Have a project<br />to <span>move forward?</span></h2>
-          <p className="contact-lede">Tell me what you’re building, where you need support, or what’s getting in the way. I’m open to remote freelance, contract and project-based collaboration.</p>
+          <p className="contact-lede">I’m employed full-time and open to focused freelance, contract, and project-based work outside my regular hours. Tell me what you’re building, where you need support, or what’s getting in the way.</p>
           <a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail} <ArrowUpRight size={18} aria-hidden="true" /></a>
           <div className="contact-socials">
             <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a>
             <a href="https://github.com/Chiragkanani" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a>
           </div>
-          <p className="contact-availability"><span className="signal-dot" /> Open to project collaboration</p>
+          <p className="contact-availability"><span className="signal-dot" /> Available for project collaboration alongside my full-time role</p>
         </div>
         <form className="contact-form" ref={formRef} onSubmit={handleSubmit} aria-busy={state === "sending"} data-reveal>
           <div className="form-heading"><span>Send a note</span><Mail size={18} aria-hidden="true" /></div>

@@ -7,13 +7,13 @@ const HeroSection = () => (
       <div className="hero-copy">
         <p className="hero-kicker"><span className="signal-dot" /> <span>Chirag Kanani</span><span className="hero-kicker-divider" aria-hidden="true" />Senior Full Stack Developer</p>
         <h1 id="hero-title">I build<br className="narrow-break" /> software<br /><span>that moves work forward.</span></h1>
-        <p className="hero-intro">Web and mobile products, from interface to API. I adapt to the problem, choose practical tools, and use AI-assisted workflows to move from idea to working software.</p>
+        <p className="hero-intro">I help teams build practical web and mobile products, from polished interfaces to APIs and integrations. I choose tools to fit the problem and use AI where it genuinely helps move the work forward.</p>
         <div className="hero-actions">
           <a className="button button-primary" href="#work">Explore my work <ArrowDown size={16} aria-hidden="true" /></a>
           <a className="button button-quiet" href="#contact">Let’s collaborate <ArrowUpRight size={16} aria-hidden="true" /></a>
         </div>
         <div className="hero-footnote">
-          <span>Open to freelance, contract & project work</span>
+          <span>Open to focused freelance & contract work</span>
           <span className="footnote-separator" aria-hidden="true" />
           <span>Remote collaboration</span>
         </div>

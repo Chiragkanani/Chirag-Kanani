@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ArrowUp } from "lucide-react";
+import AnimatedCursor from "@/components/portfolio/AnimatedCursor";
 import Navigation from "@/components/portfolio/Navigation";
 import HeroSection from "@/components/portfolio/HeroSection";
 import AboutSection from "@/components/portfolio/AboutSection";
@@ -11,6 +13,8 @@ import ProcessSection from "@/components/portfolio/ProcessSection";
 import Footer from "@/components/portfolio/Footer";
 
 const Index = () => {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
 
@@ -31,6 +35,14 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const updateVisibility = () => setShowBackToTop(window.scrollY > 500);
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
+
   return (
     <div className="portfolio-shell">
       <a className="skip-link" href="#main">Skip to content</a>
@@ -46,6 +58,12 @@ const Index = () => {
         <ContactSection />
       </main>
       <Footer />
+      {showBackToTop && (
+        <a className="back-to-top-floating" href="#home" aria-label="Back to top">
+          <ArrowUp size={19} aria-hidden="true" />
+        </a>
+      )}
+      <AnimatedCursor />
     </div>
   );
 };
