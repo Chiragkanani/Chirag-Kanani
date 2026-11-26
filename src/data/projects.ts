@@ -25,6 +25,7 @@ export interface ProjectScreenshot {
   alt: string;
   label: string;
   caption: string;
+  surface?: "Website" | "Member app" | "Mobile app" | "Admin panel";
   orientation?: "portrait" | "landscape" | "square" | "collage";
 }
 
@@ -87,30 +88,35 @@ export const projects: ProjectItem[] = [
         alt: "Arusuvai Cloud Kitchen landing hero showing navigation, value proposition, and Order Now / View Menu actions",
         label: "Landing Hero",
         caption: "Hero introduction with direct Order Now and View Menu navigation.",
+        surface: "Website",
       },
       {
         src: arusuvaiMenu,
         alt: "Arusuvai interactive menu section with Breakfast, Lunch, Dinner, and Special category tabs and dish cards",
         label: "Menu & Cart",
         caption: "Tabbed meal categories with dish descriptions and cart selection controls.",
+        surface: "Website",
       },
       {
         src: arusuvaiSubscriptions,
         alt: "Arusuvai meal subscriptions section comparing Weekly Meals, Monthly Meals, and Office Lunch plans",
         label: "Subscriptions",
         caption: "Recurring meal plan comparison highlighting popular monthly and office lunch options.",
+        surface: "Website",
       },
       {
         src: arusuvaiCatering,
         alt: "Arusuvai corporate and event catering section listing office lunch, weddings, house functions, and bulk orders",
         label: "Catering Services",
         caption: "Service breakdown for corporate events, weddings, family functions, and bulk orders.",
+        surface: "Website",
       },
       {
         src: arusuvaiContact,
         alt: "Arusuvai contact and enquiry section with kitchen hours, WhatsApp button, and structured enquiry form",
         label: "Enquiry Flow",
         caption: "Kitchen contact details paired with WhatsApp handoff and an event/subscription enquiry form.",
+        surface: "Website",
       },
     ],
     liveUrl: "https://arusuvai-cloudkitchen.netlify.app/",
@@ -154,6 +160,7 @@ export const projects: ProjectItem[] = [
         alt: "WillWolf marketing homepage with navigation, a family-focused estate-planning headline, and digital will calls to action",
         label: "Marketing Homepage",
         caption: "The public website presents WillWolf's estate-planning service and its privacy-first message.",
+        surface: "Website",
         orientation: "landscape",
       },
       {
@@ -161,6 +168,7 @@ export const projects: ProjectItem[] = [
         alt: "Three WillWolf mobile app screens showing the member dashboard, profile setup, and will-generation readiness",
         label: "Mobile App Screens",
         caption: "A side-by-side look at the member dashboard, profile setup, and will-generation experience.",
+        surface: "Member app",
         orientation: "collage",
       },
       {
@@ -168,6 +176,7 @@ export const projects: ProjectItem[] = [
         alt: "WillWolf member app showing a guided real-estate asset form with property details and a multi-step progress indicator",
         label: "Real Estate Asset Form",
         caption: "A guided form for adding property details to the member's asset vault.",
+        surface: "Member app",
         orientation: "landscape",
       },
       {
@@ -175,6 +184,7 @@ export const projects: ProjectItem[] = [
         alt: "WillWolf admin dashboard showing platform metrics, date filters, and user activity charts",
         label: "Admin Dashboard",
         caption: "An administrative overview for monitoring platform activity and membership metrics.",
+        surface: "Admin panel",
         orientation: "landscape",
       },
     ],
@@ -194,9 +204,9 @@ export const projects: ProjectItem[] = [
     type: "AI-powered beauty consultant",
     domainLabel: "nalvs.app",
     summary:
-      "A mobile AI beauty consultant that turns a selfie into a personal Beauty Passport, then personalizes shade advice, makeup looks, lipstick try-on, and beauty guidance.",
+      "A personalized AI beauty platform presented as a mobile experience, Beauty Passport, and virtual try-on system.",
     overview:
-      "Built the Flutter mobile app and its backend for Android and iOS, plus a Vue 3 admin panel. Consent-based selfie analysis powers a versioned Beauty Passport, personalized recommendations, AI consultations, and virtual try-on. Membership allowances and long-running analysis jobs are enforced and managed by the backend.",
+      "I built the Flutter mobile app for Android and iOS, its backend, and a Vue 3 admin panel. Consent-based selfie analysis powers a versioned Beauty Passport, personalized recommendations, AI consultations, and virtual try-on. The App Store listing is currently in review.",
     purpose:
       "Help people make more confident makeup choices using their features, preferences, and the products they own.",
     technologies: [
@@ -222,7 +232,8 @@ export const projects: ProjectItem[] = [
       "Vue 3 admin panel for users, roles, product imports, memberships, and reports",
     ],
     highlights: [
-      "Built and shipped the Flutter app and backend, integrating face analysis, AI, image processing, memberships, and mobile-store billing.",
+      "Built the product end to end: Flutter mobile app, backend services, and Vue 3 admin panel.",
+      "Integrated face analysis, AI, image processing, memberships, and mobile-store billing.",
       "Enforced plan allowances and AI usage limits server-side rather than trusting the mobile client.",
       "Ran longer analysis and look-generation tasks as persistent backend jobs with real-time progress updates.",
       "Added privacy workflows for selfie consent, data export, account deletion, and inactive-photo cleanup.",
@@ -234,6 +245,7 @@ export const projects: ProjectItem[] = [
         alt: "NALVS marketing homepage with the headline Stop Guessing What Looks Good on You and a mobile app preview",
         label: "Marketing Preview",
         caption: "The landing page introduces NALVS as a personalized beauty consultant.",
+        surface: "Website",
         orientation: "landscape",
       },
       {
@@ -241,6 +253,7 @@ export const projects: ProjectItem[] = [
         alt: "NALVS mobile app welcome screen featuring a personalized Beauty Passport and today's look",
         label: "Beauty Home",
         caption: "A personalized home screen centered on the user's Beauty Passport.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -248,6 +261,7 @@ export const projects: ProjectItem[] = [
         alt: "NALVS Beauty Passport screen summarizing skin tone, undertone, contrast, eye shape, and hair type",
         label: "Beauty Passport",
         caption: "A versioned profile turns selfie analysis into readable beauty guidance.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -255,6 +269,7 @@ export const projects: ProjectItem[] = [
         alt: "NALVS membership screen comparing monthly and annual plans with included beauty allowances",
         label: "Membership",
         caption: "Membership plans explain the monthly allowances available to each user.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -262,13 +277,14 @@ export const projects: ProjectItem[] = [
         alt: "NALVS Admin overview showing catalogue totals, reporting metrics, and administrator role",
         label: "Admin Overview",
         caption: "The web admin panel provides catalogue, report, and administrator-management views.",
+        surface: "Admin panel",
         orientation: "landscape",
       },
     ],
     links: [
       { label: "Website", url: "https://www.nalvs.app" },
       { label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.shopalabeauty.eclat" },
-      { label: "App Store", url: "https://apps.apple.com/app/id6815952567" },
+      { label: "App Store (in review)", url: "https://apps.apple.com/app/id6815952567" },
       { label: "Admin panel", url: "https://navls-admin.pages.dev/" },
     ],
     liveUrl: "https://www.nalvs.app",
@@ -323,6 +339,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid promotional graphic showing the mobile app onboarding screen and one-platform activity coordination message",
         label: "App Onboarding",
         caption: "The public site introduces ActiviKid's unified activity-discovery and booking experience.",
+        surface: "Mobile app",
         orientation: "square",
       },
       {
@@ -330,6 +347,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid child profile screen with preferences and upcoming activities",
         label: "Personalized Activities",
         caption: "Child profiles and recommendations help families find activities that fit.",
+        surface: "Mobile app",
         orientation: "square",
       },
       {
@@ -337,6 +355,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid mobile activity schedule with upcoming classes and booking controls",
         label: "Activity Booking",
         caption: "The app brings schedules and activity bookings together in one view.",
+        surface: "Mobile app",
         orientation: "square",
       },
       {
@@ -344,6 +363,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid mobile app promotional screen showing an AI-powered child development report",
         label: "AI Development Report",
         caption: "AI-powered reports summarize a child's development and suggest personalized next steps.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -351,6 +371,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid promotional screen showing classes tailored to a child's profile",
         label: "Tailored Classes",
         caption: "Class recommendations are tailored to each child's profile and interests.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -358,6 +379,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid mobile app promotional screen showing its all-in-one dashboard and activity reports",
         label: "Member Dashboard",
         caption: "Families can review activities and development insights from one dashboard.",
+        surface: "Mobile app",
         orientation: "portrait",
       },
       {
@@ -365,6 +387,7 @@ export const projects: ProjectItem[] = [
         alt: "ActiviKid admin panel displaying merchant records and account statuses",
         label: "Admin Panel",
         caption: "The admin panel gives operators an overview of registered merchants and their statuses.",
+        surface: "Admin panel",
         orientation: "landscape",
       },
     ],

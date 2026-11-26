@@ -2,17 +2,10 @@ import { useState } from "react";
 import { ArrowDownRight } from "lucide-react";
 
 const services = [
-  ["Full stack web development", "Build a complete web application across its interface, business logic and data layer."],
-  ["Frontend development", "Create responsive, interactive interfaces with clear structure and thoughtful behavior."],
-  ["Backend systems", "Implement server-side functionality, application logic and data handling."],
-  ["Mobile applications", "Develop cross-platform apps with Flutter or Capacitor where the project fits."],
-  ["API development & integration", "Connect applications through REST APIs and third-party services."],
-  ["Database development", "Shape data models and queries around the application’s needs."],
-  ["Feature development", "Add focused functionality that fits an existing product and its technical direction."],
-  ["Application enhancement", "Extend an existing product with new features and improvements."],
-  ["Bug fixing", "Investigate issues and troubleshoot unexpected application behavior."],
-  ["Application maintenance", "Improve reliability and keep existing applications moving."],
-  ["AI-assisted engineering", "Bring modern AI tools into research, implementation and debugging workflows."],
+  ["Web applications", "Build responsive customer-facing products, dashboards, internal tools, and complete web applications across the interface, application logic, and data layer."],
+  ["Mobile applications", "Build cross-platform mobile experiences with Flutter or Capacitor when the project fits, including app-store-ready flows and device integrations."],
+  ["APIs & integrations", "Design and connect APIs, databases, payment flows, authentication, and third-party services so product features work reliably together."],
+  ["Practical AI features", "Add useful AI-assisted search, analysis, workflows, or integrations, with clear boundaries, review steps, and responsible handling of user data."],
 ];
 
 const ServicesSection = () => {

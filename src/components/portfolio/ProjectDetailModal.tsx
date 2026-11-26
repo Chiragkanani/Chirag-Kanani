@@ -14,6 +14,8 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
   const [isClosing, setIsClosing] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const galleryTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const closeTimerRef = useRef<number | null>(null);
   const requestCloseRef = useRef<() => void>(() => {});
@@ -83,6 +85,33 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
         requestCloseRef.current();
         return;
       }
+      if (event.key === "Tab" && dialogRef.current) {
+        const focusableElements = Array.from(
+          dialogRef.current.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((element) => element.offsetParent !== null);
+
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          dialogRef.current.focus();
+          return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const focusIsOutsideDialog = !dialogRef.current.contains(document.activeElement);
+        if (focusIsOutsideDialog) {
+          event.preventDefault();
+          (event.shiftKey ? lastElement : firstElement).focus();
+        } else if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
       if (renderedProject.screenshots.length <= 1) return;
       if (event.key === "ArrowRight") {
         event.preventDefault();
@@ -110,6 +139,11 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
   const screenshots = renderedProject.screenshots;
   const activeShot = screenshots[activeIndex] ?? screenshots[0];
   const hasMultipleShots = screenshots.length > 1;
+  const surfaceIndexes = new Map<string, number>();
+  screenshots.forEach((shot, index) => {
+    if (shot.surface && !surfaceIndexes.has(shot.surface)) surfaceIndexes.set(shot.surface, index);
+  });
+  const surfaces = Array.from(surfaceIndexes, ([surface, index]) => ({ surface, index }));
 
   const showPrev = () => {
     setActiveIndex((current) => (current - 1 + screenshots.length) % screenshots.length);
@@ -128,10 +162,12 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
       }}
     >
       <div
+        ref={dialogRef}
         className={`project-modal${isClosing ? " is-closing" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
+        tabIndex={-1}
       >
         <header className="project-modal-header">
           <div className="project-modal-title-group">
@@ -178,6 +214,21 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
         <div className="project-modal-body">
           {activeShot && (
             <section className="project-gallery" aria-label="Project screenshots">
+              {surfaces.length > 1 && (
+                <div className="project-surfaces" role="group" aria-label="View product surface">
+                  {surfaces.map(({ surface, index }) => (
+                    <button
+                      key={surface}
+                      type="button"
+                      className="project-surface-button"
+                      aria-pressed={activeShot.surface === surface}
+                      onClick={() => setActiveIndex(index)}
+                    >
+                      {surface}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="project-gallery-stage">
                 <div className="project-frame-bar" aria-hidden="true">
                   <div className="project-frame-dots">
@@ -193,6 +244,10 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
 
                 <div
                   className={`project-gallery-viewport${activeShot.orientation ? ` project-gallery-viewport--${activeShot.orientation}` : ""}`}
+                  id="project-gallery-panel"
+                  role={hasMultipleShots ? "tabpanel" : undefined}
+                  aria-label={hasMultipleShots ? `${activeShot.label} screenshot` : undefined}
+                  aria-labelledby={hasMultipleShots ? `project-gallery-tab-${activeIndex}` : undefined}
                 >
                   <img
                     key={activeShot.src}
@@ -235,11 +290,28 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   {screenshots.map((shot, index) => (
                     <button
                       key={shot.label}
+                      ref={(element) => { galleryTabRefs.current[index] = element; }}
                       type="button"
                       role="tab"
+                      id={`project-gallery-tab-${index}`}
                       aria-selected={index === activeIndex}
+                      aria-controls="project-gallery-panel"
+                      tabIndex={index === activeIndex ? 0 : -1}
                       className={`gallery-thumb${index === activeIndex ? " is-active" : ""}${shot.orientation ? ` gallery-thumb--${shot.orientation}` : ""}`}
                       onClick={() => setActiveIndex(index)}
+                      onKeyDown={(event) => {
+                        let nextIndex: number | null = null;
+                        if (event.key === "ArrowRight") nextIndex = (index + 1) % screenshots.length;
+                        if (event.key === "ArrowLeft") nextIndex = (index - 1 + screenshots.length) % screenshots.length;
+                        if (event.key === "Home") nextIndex = 0;
+                        if (event.key === "End") nextIndex = screenshots.length - 1;
+                        if (nextIndex !== null) {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          setActiveIndex(nextIndex);
+                          galleryTabRefs.current[nextIndex]?.focus();
+                        }
+                      }}
                     >
                       <img src={shot.src} alt="" loading="lazy" decoding="async" />
                       <span>

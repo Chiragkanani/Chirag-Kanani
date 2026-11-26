@@ -47,7 +47,7 @@ const Index = () => {
     <div className="portfolio-shell">
       <a className="skip-link" href="#main">Skip to content</a>
       <Navigation />
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <HeroSection />
         <ProjectsSection />
         <AboutSection />

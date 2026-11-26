@@ -31,6 +31,8 @@ const ProjectsSection = () => {
           return (
             <article
               key={project.slug}
+              id={`project-${project.slug}`}
+              tabIndex={-1}
               className={`work-ledger${index % 2 === 1 ? " work-ledger--reversed" : ""}`}
               data-reveal
               aria-labelledby={`project-title-${project.slug}`}
@@ -166,6 +168,13 @@ const ProjectsSection = () => {
           </div>
         </div>
       )}
+
+      <div className="work-cta" data-reveal>
+        <p>Have a product or feature in mind?</p>
+        <a className="button button-quiet" href="#contact">
+          Tell me about it <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
 
       <ProjectDetailModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </section>

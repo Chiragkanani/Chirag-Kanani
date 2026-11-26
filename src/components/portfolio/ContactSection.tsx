@@ -58,7 +58,7 @@ const ContactSection = () => {
   };
 
   const message = {
-    idle: "The form confirms delivery only after the email service accepts your message.",
+    idle: "Tell me what you are building and where you need support.",
     sending: "Sending your message…",
     success: "Message sent. Thanks for reaching out.",
     error: "The form could not send your message. It has not been sent.",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 const navItems = [
@@ -13,8 +13,11 @@ const navItems = [
 const Navigation = () => {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+
     const sections = [...navItems.map((item) => item.section), "skills", "workflow", "contact"]
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
@@ -45,18 +48,26 @@ const Navigation = () => {
 
   useEffect(() => {
     if (!menuOpen) return;
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") setMenuOpen(false); };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    if (menuOpen) menuToggleRef.current?.focus();
+    setMenuOpen(false);
+  };
 
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a className="wordmark" href="#home" onClick={closeMenu} aria-label="Chirag Kanani, home"><span>Chirag Kanani</span></a>
-        <button className={`menu-toggle${menuOpen ? " is-open" : ""}`} type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
+        <a className="wordmark" href="#home" onClick={() => setMenuOpen(false)} aria-label="Chirag Kanani, home"><span>Chirag Kanani</span></a>
+        <button ref={menuToggleRef} className={`menu-toggle${menuOpen ? " is-open" : ""}`} type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
           <span className="menu-toggle-icon" aria-hidden="true">
             <span />
             <span />
