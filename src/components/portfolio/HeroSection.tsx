@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
+import ProfilePhoto from "@/components/portfolio/ProfilePhoto";
 
 const capabilities = [
   {
@@ -53,7 +54,13 @@ const HeroSection = () => {
     <div className="hero-grid" aria-hidden="true" />
     <div className="hero-inner">
       <div className="hero-copy">
-        <p className="hero-kicker"><span className="signal-dot" /> <span>Chirag Kanani</span><span className="hero-kicker-divider" aria-hidden="true" />Senior Full Stack Developer</p>
+        <p className="hero-kicker">
+          <ProfilePhoto className="hero-avatar" loading="eager" />
+          <span className="hero-kicker-copy">
+            <span className="hero-kicker-name">Chirag Kanani</span>
+            <span className="hero-kicker-role">Senior Full Stack Developer</span>
+          </span>
+        </p>
         <h1 id="hero-title">I turn product ideas<br /><span>into dependable software.</span></h1>
         <p className="hero-intro">I partner with startups, SMBs, and agencies to build web apps, mobile apps, APIs, and practical AI integrations—from MVP through production. I choose tools to fit the problem and stay accountable for the details.</p>
         <div className="hero-actions">
