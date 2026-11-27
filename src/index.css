@@ -250,6 +250,14 @@ h1, h2, h3 { font-family: var(--display); }
 .project-link-list a { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .8rem; transition: color .2s ease; }
 .project-link-list a:hover, .project-link-list a:focus-visible { color: var(--signal); }
 .project-link-list svg { color: var(--signal); }
+.project-integration-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 9px; list-style: none; margin: 0; padding: 0; }
+.project-integration-card { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: center; gap: 10px; height: 100%; min-height: 72px; padding: 10px; border: 1px solid var(--line); background: rgba(17, 20, 17, .45); color: var(--ink); transition: border-color .2s ease, background .2s ease; }
+.project-integration-card:hover, .project-integration-card:focus-visible { border-color: var(--signal); background: #1a201b; }
+.project-integration-mark { display: grid; place-items: center; width: 40px; height: 40px; overflow: hidden; border: 1px solid rgba(17, 20, 17, .08); background: #f7f8f6; color: #242824; font: 600 .95rem var(--display); }
+.project-integration-mark img { width: 28px; height: 28px; object-fit: contain; }
+.project-integration-copy { display: grid; gap: 4px; min-width: 0; }
+.project-integration-copy strong { color: var(--ink); font: 500 .75rem var(--display); }
+.project-integration-copy small { color: var(--muted); font-size: .65rem; line-height: 1.4; }
 
 /* About */
 .about-section { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(45px, 10vw, 150px); padding-top: 132px; padding-bottom: 140px; border-top: 1px solid var(--line); }

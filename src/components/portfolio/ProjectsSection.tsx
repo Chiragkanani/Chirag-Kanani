@@ -27,6 +27,9 @@ const ProjectsSection = () => {
           const shotCount = project.screenshots.length;
           const screenshotLabel = shotCount === 1 ? "screenshot" : "screenshots";
           const viewLabel = shotCount === 1 ? "view" : "views";
+          const previewImage = primaryShot?.src ?? project.coverImage;
+          const previewAlt = primaryShot?.alt ?? project.coverAlt;
+          const previewOrientation = primaryShot?.orientation ?? (project.coverImage ? "landscape" : undefined);
 
           return (
             <article
@@ -42,7 +45,9 @@ const ProjectsSection = () => {
                   type="button"
                   className="project-preview"
                   onClick={() => setSelectedProject(project)}
-                  aria-label={`Inspect ${project.name} ${screenshotLabel} and case study (${shotCount} ${viewLabel})`}
+                  aria-label={shotCount > 0
+                    ? `Inspect ${project.name} ${screenshotLabel} and case study (${shotCount} ${viewLabel})`
+                    : `Open ${project.name} case study`}
                 >
                   <div className="project-frame">
                     <div className="project-frame-bar" aria-hidden="true">
@@ -52,15 +57,15 @@ const ProjectsSection = () => {
                         <span />
                       </div>
                       <span className="project-frame-domain">{project.domainLabel ?? project.name}</span>
-                      <span className="project-frame-counter">{shotCount} {viewLabel}</span>
+                      <span className="project-frame-counter">{shotCount > 0 ? `${shotCount} ${viewLabel}` : "Case study"}</span>
                     </div>
-                    {primaryShot && (
+                    {previewImage && (
                       <div
-                        className={`project-frame-media${primaryShot.orientation ? ` project-frame-media--${primaryShot.orientation}` : ""}`}
+                        className={`project-frame-media${previewOrientation ? ` project-frame-media--${previewOrientation}` : ""}`}
                       >
                         <img
-                          src={primaryShot.src}
-                          alt={primaryShot.alt}
+                          src={previewImage}
+                          alt={previewAlt ?? ""}
                           loading="lazy"
                           decoding="async"
                         />
@@ -69,12 +74,12 @@ const ProjectsSection = () => {
                   </div>
                   <span className="project-preview-hint">
                     <Layers size={14} aria-hidden="true" />
-                    Inspect project · {shotCount} {screenshotLabel}
+                    {shotCount > 0 ? `Inspect project · ${shotCount} ${screenshotLabel}` : "Open case study"}
                   </span>
                 </button>
 
                 <div className="project-visual-caption">
-                  <span>{primaryShot?.label ?? "Application interface"}</span>
+                  <span>{primaryShot?.label ?? project.coverLabel ?? "Application interface"}</span>
                   <span>{project.type}</span>
                 </div>
               </div>

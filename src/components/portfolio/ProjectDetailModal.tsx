@@ -372,6 +372,36 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                 </ul>
               </section>
 
+              {renderedProject.integrations && renderedProject.integrations.length > 0 && (
+                <section className="project-modal-block">
+                  <h4>Connected integrations</h4>
+                  <ul className="project-integration-grid">
+                    {renderedProject.integrations.map((integration) => (
+                      <li key={integration.name}>
+                        <a
+                          className="project-integration-card"
+                          href={integration.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span className="project-integration-mark" aria-hidden="true">
+                            {integration.logo ? (
+                              <img src={integration.logo} alt={integration.logoAlt ?? ""} loading="lazy" />
+                            ) : (
+                              <span>{integration.monogram ?? integration.name.slice(0, 1)}</span>
+                            )}
+                          </span>
+                          <span className="project-integration-copy">
+                            <strong>{integration.name}</strong>
+                            <small>{integration.description}</small>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
               <section className="project-modal-block project-development">
                 <h4>Development highlights</h4>
                 <ul>

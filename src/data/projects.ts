@@ -19,18 +19,41 @@ import activikidMerchantPanel from "@/assets/projects/activikid-merchant-panel.p
 import activikidAiReport from "@/assets/projects/activikid-ai-report.webp";
 import activikidTailoredClasses from "@/assets/projects/activikid-tailored-classes.webp";
 import activikidMemberDashboard from "@/assets/projects/activikid-member-dashboard.webp";
+import onboardNowLogo from "@/assets/projects/onboardnow-logo.png";
+import onboardNowMarketingHero from "@/assets/projects/onboardnow-marketing-hero.png";
+import onboardNowDashboard from "@/assets/projects/onboardnow-dashboard.png";
+import onboardNowSurveyJsLogo from "@/assets/projects/onboardnow-integrations/surveyjs.ico";
+import onboardNowDiditLogo from "@/assets/projects/onboardnow-integrations/didit.ico";
+import onboardNowGovernmentLogo from "@/assets/projects/onboardnow-integrations/hm-land-registry.ico";
+import onboardNowTwilioLogo from "@/assets/projects/onboardnow-integrations/twilio.ico";
+import onboardNowMicrosoftLogo from "@/assets/projects/onboardnow-integrations/microsoft-graph.ico";
+import onboardNowOnlyOfficeLogo from "@/assets/projects/onboardnow-integrations/onlyoffice-64.png";
+import onboardNowAwsLogo from "@/assets/projects/onboardnow-integrations/aws-bedrock.ico";
+import onboardNowIdealPostcodesLogo from "@/assets/projects/onboardnow-integrations/ideal-postcodes.ico";
+import onlyOfficeHero from "@/assets/projects/onboardnow-integrations/reference-sites/onlyoffice-site-reference.png";
+import clioSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/clio-site-reference.png";
+import diditSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/didit-site-reference.png";
+import surveyJsHero from "@/assets/projects/onboardnow-integrations/reference-sites/surveyjs-site-reference.png";
 
 export interface ProjectScreenshot {
   src: string;
   alt: string;
   label: string;
   caption: string;
-  surface?: "Website" | "Member app" | "Mobile app" | "Admin panel";
+  surface?: "Website" | "Member app" | "Mobile app" | "Admin panel" | "Firm dashboard" | "OnlyOffice" | "Clio" | "Didit" | "SurveyJs";
   orientation?: "portrait" | "landscape" | "square" | "collage";
 }
 
 export interface ProjectLink {
   label: string;
+  url: string;
+}
+
+export interface ProjectIntegration {
+  name: string;
+  description: string;
+  logo?: string;
+  monogram?: string;
   url: string;
 }
 
@@ -49,6 +72,10 @@ export interface ProjectItem {
   features: string[];
   highlights: string[];
   screenshots: ProjectScreenshot[];
+  integrations?: ProjectIntegration[];
+  coverImage?: string;
+  coverAlt?: string;
+  coverLabel?: string;
   links?: ProjectLink[];
   liveUrl?: string;
   repoUrl?: string;
@@ -184,7 +211,7 @@ export const projects: ProjectItem[] = [
         alt: "WillWolf admin dashboard showing platform metrics, date filters, and user activity charts",
         label: "Admin Dashboard",
         caption: "An administrative overview for monitoring platform activity and membership metrics.",
-        surface: "Admin panel",
+        surface: "Firm dashboard",
         orientation: "landscape",
       },
     ],
@@ -396,5 +423,174 @@ export const projects: ProjectItem[] = [
       { label: "Merchant login", url: "https://partner.activikid.hk/partner-login" },
     ],
     liveUrl: "https://activikid.hk/",
+  },
+  {
+    slug: "onboardnow",
+    tier: "featured",
+    number: "05",
+    name: "OnboardNow",
+    category: "LegalTech SaaS · Full-Stack Development",
+    type: "Client onboarding and case management platform",
+    domainLabel: "onboardnow.co.uk",
+    summary:
+      "A multi-tenant platform helping UK law firms manage client onboarding, matters, identity and compliance checks, document workflows, and AI-assisted legal review.",
+    overview:
+      "Built with Laravel 11 and Livewire 3, OnboardNow brings client intake, legal matter workflows, document automation, and practice-management integration into one platform. Firms create matters and assign tasks; clients complete checks, forms, uploads, approvals, and signatures through a guided portal.",
+    purpose:
+      "Replace fragmented emails and manual handoffs with a guided workflow for onboarding clients, preparing legal documents, tracking matter tasks, and reviewing legal information.",
+    technologies: [
+      "PHP 8.2+",
+      "Laravel 11",
+      "Livewire 3",
+      "Alpine.js",
+      "Tailwind CSS",
+      "MySQL",
+      "AWS Bedrock",
+      "Didit",
+      "HM Land Registry",
+    ],
+    features: [
+      "Configurable client actions for questionnaires, ID checks, document requests, approvals, and e-signatures",
+      "Automatic client reminders by email, SMS, and WhatsApp",
+      "Didit-powered digital identity verification and AML screening, alongside UK Right to Work / Right to Rent checks",
+      "Matter and case-file management with pre-contract enquiries and AI-assisted review",
+      "Instruction-email intake from IMAP and Microsoft 365 to create matters and tasks",
+      "DOCX/PDF template automation, browser-based template editing, PDF forms, and SurveyJS questionnaires",
+      "HM Land Registry title search and official-copy ordering, with AI-assisted title reports and auction-pack advice",
+      "AI document classification, summaries, fact extraction, and fee-earner-reviewed reports",
+      "Conveyancing quote builder producing PDF/DOCX quotes with email, status, and follow-up tracking",
+      "Multi-firm workflows and a versioned REST API",
+    ],
+    highlights: [
+      "Redesigned the application UI into a consistent, responsive system using reusable Blade and Livewire components.",
+      "Built the HM Land Registry integration, official-copy ordering, and AI Report on Title.",
+      "Developed AWS Bedrock features for uploaded-document analysis, auction-pack advice, and AI review of enquiries.",
+      "Built the enquiries workflow from raising and sending enquiries through replies, AI review, and status tracking.",
+      "Built the conveyancing quotes engine, including fee calculations, PDF/DOCX generation, email, statuses, and chasers.",
+      "Integrated Didit into client onboarding for digital identity verification and AML screening.",
+      "Extended client approval flows for care letters, document approvals, and e-signatures.",
+      "Improved document-template management and case-file history, and strengthened multi-tenant security.",
+      "Moved long-running AI and document-generation tasks into queued background jobs with progress feedback.",
+    ],
+    integrations: [
+      {
+        name: "SurveyJS",
+        description: "Integrated for client questionnaires and forms",
+        logo: onboardNowSurveyJsLogo,
+        url: "https://surveyjs.io/",
+      },
+      {
+        name: "Didit",
+        description: "Integrated for identity verification and AML screening",
+        logo: onboardNowDiditLogo,
+        url: "https://didit.me/",
+      },
+      {
+        name: "HM Land Registry",
+        description: "Integrated for title searches and official-copy orders",
+        logo: onboardNowGovernmentLogo,
+        url: "https://www.gov.uk/government/organisations/land-registry",
+      },
+      {
+        name: "UK Share Code API",
+        description: "Integrated for Right to Work and Right to Rent checks",
+        logo: onboardNowGovernmentLogo,
+        url: "https://www.gov.uk/prove-right-to-work",
+      },
+      {
+        name: "Clio",
+        description: "Integrated for firm/user sync and task-status updates",
+        monogram: "C",
+        url: "https://www.clio.com/",
+      },
+      {
+        name: "Twilio",
+        description: "Integrated for SMS, WhatsApp reminders, and mobile PINs",
+        logo: onboardNowTwilioLogo,
+        url: "https://www.twilio.com/",
+      },
+      {
+        name: "Microsoft Graph",
+        description: "Integrated for instruction-email intake from Microsoft 365",
+        logo: onboardNowMicrosoftLogo,
+        url: "https://learn.microsoft.com/graph/overview",
+      },
+      {
+        name: "ONLYOFFICE Docs",
+        description: "Integrated for browser-based document template editing",
+        logo: onboardNowOnlyOfficeLogo,
+        url: "https://www.onlyoffice.com/",
+      },
+      {
+        name: "AWS Bedrock",
+        description: "Integrated for AI document analysis and legal reports",
+        logo: onboardNowAwsLogo,
+        url: "https://aws.amazon.com/bedrock/",
+      },
+      {
+        name: "Ideal Postcodes",
+        description: "Integrated for UK address lookup",
+        logo: onboardNowIdealPostcodesLogo,
+        url: "https://ideal-postcodes.co.uk/",
+      },
+    ],
+    screenshots: [
+      {
+        src: onboardNowMarketingHero,
+        alt: "OnboardNow marketing website hero promoting AI-powered client onboarding workflows",
+        label: "Marketing site hero",
+        caption: "The public marketing site introduces OnboardNow's guided, AI-assisted onboarding workflows.",
+        surface: "Website",
+        orientation: "landscape",
+      },
+      {
+        src: onboardNowDashboard,
+        alt: "OnboardNow dashboard showing matter, client-action, signature, ID-check, task, and estimate summaries",
+        label: "Firm dashboard",
+        caption: "A firm dashboard overview with quick actions, estimates, and matter activity.",
+        surface: "Admin panel",
+        orientation: "landscape",
+      },
+      {
+        src: onlyOfficeHero,
+        alt: "OnlyOffice document editing interface",
+        label: "OnlyOffice integration",
+        caption: "A seamless integration for browser-based document template editing.",
+        surface: "OnlyOffice",
+        orientation: "landscape",
+      },
+      {
+        src: clioSiteReference,
+        alt: "Clio site reference",
+        label: "Clio integration",
+        caption: "A seamless integration for firm/user sync and task-status updates.",
+        surface: "Clio",
+        orientation: "landscape",
+      },
+      {
+        src: diditSiteReference,
+        alt: "Didit site reference",
+        label: "Didit integration",
+        caption: "A seamless integration for firm/user sync and task-status updates.",
+        surface: "Didit",
+        orientation: "landscape",
+      },
+      {
+        src: surveyJsHero,
+        alt: "SurveyJS form interface",
+        label: "SurveyJS integration",
+        caption: "A seamless integration for client questionnaires and forms.",
+        surface: "SurveyJs",
+        orientation: "landscape",
+      }
+    ],
+    coverImage: onboardNowLogo,
+    coverAlt: "OnboardNow product logo",
+    coverLabel: "Product identity",
+    links: [
+      { label: "Live system", url: "https://onboardnow.lycium.co.uk/" },
+      { label: "Product website", url: "https://onboardnow.co.uk/" },
+    ],
+    liveUrl: "https://onboardnow.lycium.co.uk/",
   },
 ];
