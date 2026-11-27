@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { ArrowUpRight, Mail, Send } from "lucide-react";
+import { ArrowUpRight, Mail, Phone, Send } from "lucide-react";
 
 type SubmissionState = "idle" | "sending" | "success" | "error" | "unconfigured";
 const contactEmail = "chiragkanani2003@gmail.com";
+const contactPhone = "9054687227";
 
 const createEmailDraft = (form: HTMLFormElement) => {
   const values = new FormData(form);
@@ -72,7 +73,10 @@ const ContactSection = () => {
           <p className="section-index">Start a conversation</p>
           <h2 id="contact-title">Have a project<br />to <span>move forward?</span></h2>
           <p className="contact-lede">I’m employed full-time and open to focused freelance, contract, and project-based work outside my regular hours. Tell me what you’re building, where you need support, or what’s getting in the way.</p>
-          <a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail} <ArrowUpRight size={18} aria-hidden="true" /></a>
+          <div className="contact-direct-links">
+            <a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail} <ArrowUpRight size={18} aria-hidden="true" /></a>
+            <a className="contact-phone" href={`tel:${contactPhone}`}><Phone size={17} aria-hidden="true" />{contactPhone}</a>
+          </div>
           <div className="contact-socials">
             <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a>
             <a href="https://github.com/Chiragkanani" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a>
