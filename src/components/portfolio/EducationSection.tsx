@@ -1,4 +1,5 @@
 import collegeLogo from "@/assets/gec-bhavnagar-logo.png";
+import PortfolioImage from "@/components/portfolio/PortfolioImage";
 
 const EducationSection = () => (
   <section className="education-section section-wrap" id="education" aria-labelledby="education-title">
@@ -9,7 +10,7 @@ const EducationSection = () => (
     <div className="education-list" data-reveal>
       <article className="education-row" data-reveal>
         <div className="education-logo-frame">
-          <img src={collegeLogo} alt="Government Engineering College, Bhavnagar logo" width="225" height="224" loading="lazy" decoding="async" />
+          <PortfolioImage src={collegeLogo} alt="Government Engineering College, Bhavnagar logo" width="225" height="224" loading="lazy" decoding="async" />
         </div>
         <div className="education-details">
           <h3>Bachelor of Engineering (BE)</h3>

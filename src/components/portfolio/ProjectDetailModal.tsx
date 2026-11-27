@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { ProjectItem } from "@/data/projects";
+import PortfolioImage from "@/components/portfolio/PortfolioImage";
 
 interface ProjectDetailModalProps {
   project: ProjectItem | null;
@@ -249,7 +250,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   aria-label={hasMultipleShots ? `${activeShot.label} screenshot` : undefined}
                   aria-labelledby={hasMultipleShots ? `project-gallery-tab-${activeIndex}` : undefined}
                 >
-                  <img
+                  <PortfolioImage
                     key={activeShot.src}
                     src={activeShot.src}
                     alt={activeShot.alt}
@@ -313,7 +314,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                         }
                       }}
                     >
-                      <img src={shot.src} alt="" loading="lazy" decoding="async" />
+                      <PortfolioImage src={shot.src} alt="" loading="lazy" decoding="async" />
                       <span>
                         <small>0{index + 1}</small>
                         {shot.label}
@@ -386,7 +387,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                         >
                           <span className="project-integration-mark" aria-hidden="true">
                             {integration.logo ? (
-                              <img src={integration.logo} alt={integration.logoAlt ?? ""} loading="lazy" />
+                              <PortfolioImage src={integration.logo} alt={integration.logoAlt ?? ""} loading="lazy" />
                             ) : (
                               <span>{integration.monogram ?? integration.name.slice(0, 1)}</span>
                             )}

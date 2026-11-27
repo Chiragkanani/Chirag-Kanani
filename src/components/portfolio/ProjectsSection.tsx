@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowUpRight, Layers, Plus } from "lucide-react";
 import { projects, type ProjectItem } from "@/data/projects";
 import ProjectDetailModal from "@/components/portfolio/ProjectDetailModal";
+import PortfolioImage from "@/components/portfolio/PortfolioImage";
 
 const featuredProjects = projects.filter((project) => project.tier === "featured");
 const additionalProjects = projects.filter((project) => project.tier === "additional");
@@ -63,7 +64,7 @@ const ProjectsSection = () => {
                       <div
                         className={`project-frame-media${previewOrientation ? ` project-frame-media--${previewOrientation}` : ""}`}
                       >
-                        <img
+                        <PortfolioImage
                           src={previewImage}
                           alt={previewAlt ?? ""}
                           loading="lazy"

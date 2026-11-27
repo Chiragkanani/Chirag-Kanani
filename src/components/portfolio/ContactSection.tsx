@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { ArrowUpRight, Mail, Phone, Send } from "lucide-react";
+import { ArrowUpRight, Linkedin, Mail, MessageCircle, Phone, Send } from "lucide-react";
+import { contactEmail, contactPhone, whatsappUrl } from "@/data/contact";
 
 type SubmissionState = "idle" | "sending" | "success" | "error" | "unconfigured";
-const contactEmail = "chiragkanani2003@gmail.com";
-const contactPhone = "9054687227";
 
 const createEmailDraft = (form: HTMLFormElement) => {
   const values = new FormData(form);
@@ -78,8 +77,12 @@ const ContactSection = () => {
             <a className="contact-phone" href={`tel:${contactPhone}`}><Phone size={17} aria-hidden="true" />{contactPhone}</a>
           </div>
           <div className="contact-socials">
-            <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <a href="https://github.com/Chiragkanani" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn">
+              <Linkedin size={17} aria-hidden="true" /><span>LinkedIn</span>
+            </a>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="WhatsApp">
+              <MessageCircle size={17} aria-hidden="true" /><span>WhatsApp</span>
+            </a>
           </div>
           <p className="contact-availability"><span className="signal-dot" /> Available for project collaboration alongside my full-time role</p>
         </div>

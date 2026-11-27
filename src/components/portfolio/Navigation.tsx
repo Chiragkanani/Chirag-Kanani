@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const navItems = [
   { label: "Home", href: "#home", section: "home" },
@@ -15,6 +16,12 @@ const Navigation = () => {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const { theme, setTheme } = useTheme();
+  const isLightTheme = theme === "light";
+
+  useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", isLightTheme ? "#f7f8fb" : "#111411");
+  }, [isLightTheme]);
 
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
@@ -81,6 +88,17 @@ const Navigation = () => {
             return <a key={item.section} href={item.href} aria-current={isCurrent ? "location" : undefined} onClick={closeMenu}>{item.label}</a>;
           })}
           <a className="nav-contact" href="#contact" aria-current={active === "contact" ? "location" : undefined} onClick={closeMenu}>Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a>
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-label={`Switch to ${isLightTheme ? "dark" : "light"} theme`}
+            aria-pressed={isLightTheme}
+            title={`Switch to ${isLightTheme ? "dark" : "light"} theme`}
+            onClick={() => setTheme(isLightTheme ? "dark" : "light")}
+          >
+            {isLightTheme ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
+            <span>{isLightTheme ? "Dark" : "Light"}</span>
+          </button>
         </nav>
       </div>
       <div className="reading-line" aria-hidden="true" />

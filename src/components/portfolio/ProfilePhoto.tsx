@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import profilePhoto from "@/assets/chirag-kanani-profile.png";
+import PortfolioImage from "@/components/portfolio/PortfolioImage";
 
 interface ProfilePhotoProps {
   className: "hero-avatar" | "footer-cta-avatar";
@@ -55,7 +56,7 @@ const ProfilePhoto = ({ className, loading = "lazy" }: ProfilePhotoProps) => {
         aria-haspopup="dialog"
         onClick={() => setIsPreviewOpen(true)}
       >
-        <img src={profilePhoto} alt="" width="768" height="768" loading={loading} decoding="async" />
+        <PortfolioImage src={profilePhoto} alt="" width="768" height="768" loading={loading} decoding="async" />
       </button>
       {isPreviewOpen && createPortal(
         <div
@@ -76,7 +77,7 @@ const ProfilePhoto = ({ className, loading = "lazy" }: ProfilePhotoProps) => {
             <button ref={closeButtonRef} className="profile-photo-close" type="button" aria-label="Close portrait preview" onClick={closePreview}>
               <X size={20} aria-hidden="true" />
             </button>
-            <img className="profile-photo-preview" src={profilePhoto} alt="Portrait of Chirag Kanani" />
+            <PortfolioImage className="profile-photo-preview" src={profilePhoto} alt="Portrait of Chirag Kanani" />
           </div>
         </div>,
         document.body

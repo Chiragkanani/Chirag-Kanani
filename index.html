@@ -26,12 +26,51 @@
     <meta name="twitter:title" content="Chirag Kanani — Senior Full Stack Developer" />
     <meta name="twitter:description" content="Web and mobile products, from interface to API." />
     <meta name="twitter:image" content="https://chirag-kanani.vercel.app/social-card.jpg" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("portfolio-theme");
+        if (savedTheme === "light" || savedTheme === "dark") document.documentElement.dataset.theme = savedTheme;
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+    <style>
+      :root { --loader-bg: #111411; --loader-ink: #f0f0e8; --loader-muted: #a7ada5; --loader-accent: #8da5ff; --loader-accent-border: rgba(141, 165, 255, .42); --loader-accent-soft: rgba(141, 165, 255, .2); --loader-halo: rgba(141, 165, 255, .1); --loader-track: rgba(226, 232, 223, .14); }
+      :root[data-theme="light"] { --loader-bg: #f7f8fb; --loader-ink: #17212f; --loader-muted: #475569; --loader-accent: #3156b5; --loader-accent-border: rgba(49, 86, 181, .42); --loader-accent-soft: rgba(49, 86, 181, .2); --loader-halo: rgba(49, 86, 181, .06); --loader-track: rgba(15, 23, 42, .14); }
+      #portfolio-preloader { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 50% 46%, var(--loader-halo), transparent 42%), var(--loader-bg); color: var(--loader-ink); opacity: 1; visibility: visible; transition: opacity .45s ease, visibility .45s ease; }
+      #portfolio-preloader.is-exiting { opacity: 0; visibility: hidden; pointer-events: none; }
+      #portfolio-preloader::before, #portfolio-preloader::after { position: absolute; z-index: -1; width: 68vmax; height: 68vmax; border-radius: 50%; content: ""; pointer-events: none; }
+      #portfolio-preloader::before { top: -34vmax; left: -20vmax; background: radial-gradient(circle, rgba(255, 255, 255, .055), rgba(255, 255, 255, .015) 38%, transparent 70%); animation: portfolio-loader-ambient-one 16s ease-in-out infinite alternate; }
+      #portfolio-preloader::after { right: -24vmax; bottom: -42vmax; background: radial-gradient(circle, rgba(180, 180, 180, .04), rgba(180, 180, 180, .01) 40%, transparent 72%); animation: portfolio-loader-ambient-two 20s ease-in-out infinite alternate; }
+      :root[data-theme="light"] #portfolio-preloader::before { background: radial-gradient(circle, rgba(49, 86, 181, .07), rgba(49, 86, 181, .015) 38%, transparent 70%); }
+      :root[data-theme="light"] #portfolio-preloader::after { background: radial-gradient(circle, rgba(15, 23, 42, .045), rgba(15, 23, 42, .01) 40%, transparent 72%); }
+      .portfolio-loader-content { position: relative; z-index: 1; display: grid; justify-items: center; gap: 14px; padding: 24px; }
+      .portfolio-loader-mark { position: relative; display: grid; place-items: center; width: 68px; height: 68px; border: 1px solid var(--loader-accent-border); border-radius: 50%; color: var(--loader-ink); font: 500 1.25rem 'Space Grotesk', sans-serif; letter-spacing: -.08em; }
+      .portfolio-loader-mark::before { position: absolute; inset: -6px; border: 1px solid transparent; border-top-color: var(--loader-accent); border-right-color: var(--loader-accent-soft); border-radius: 50%; content: ""; animation: portfolio-loader-spin 1.5s linear infinite; }
+      .portfolio-loader-brand { margin-top: 8px; color: var(--loader-ink); font: 500 .72rem 'DM Sans', sans-serif; letter-spacing: .22em; }
+      .portfolio-loader-copy { margin: 0; color: var(--loader-muted); font: 400 .76rem 'DM Sans', sans-serif; }
+      .portfolio-loader-track { position: relative; width: 154px; height: 2px; margin-top: 10px; overflow: hidden; background: var(--loader-track); }
+      .portfolio-loader-track span { position: absolute; inset: 0 auto 0 -38%; width: 38%; background: var(--loader-accent); animation: portfolio-loader-sweep 1.2s ease-in-out infinite; }
+      @keyframes portfolio-loader-spin { to { transform: rotate(360deg); } }
+      @keyframes portfolio-loader-sweep { to { transform: translateX(365%); } }
+      @keyframes portfolio-loader-ambient-one { to { transform: translate3d(16vw, 13vh, 0) scale(1.14); } }
+      @keyframes portfolio-loader-ambient-two { to { transform: translate3d(-14vw, -12vh, 0) scale(1.12); } }
+      @media (prefers-reduced-motion: reduce) { .portfolio-loader-mark::before, .portfolio-loader-track span, #portfolio-preloader::before, #portfolio-preloader::after { animation: none; } .portfolio-loader-track span { left: 0; width: 100%; } #portfolio-preloader { transition: none; } }
+    </style>
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"Person","name":"Chirag Kanani","url":"https://chirag-kanani.vercel.app/","jobTitle":"Senior Full Stack Developer","sameAs":["https://www.linkedin.com/in/chiragkanani07/","https://github.com/Chiragkanani"],"knowsAbout":["Full stack development","Web application development","Mobile application development","AI-assisted software engineering","Vue.js","React.js","Node.js","Laravel","Flutter","REST APIs"]}
+      {"@context":"https://schema.org","@type":"Person","name":"Chirag Kanani","url":"https://chirag-kanani.vercel.app/","jobTitle":"Senior Full Stack Developer","sameAs":["https://www.linkedin.com/in/chiragkanani07/"],"knowsAbout":["Full stack development","Web application development","Mobile application development","AI-assisted software engineering","Vue.js","React.js","Node.js","Laravel","Flutter","REST APIs"]}
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="portfolio-preloader" role="status" aria-label="Loading portfolio">
+      <div class="portfolio-loader-content">
+        <div class="portfolio-loader-mark" aria-hidden="true">CK</div>
+        <span class="portfolio-loader-brand">CHIRAG KANANI</span>
+        <p class="portfolio-loader-copy">Preparing Portfolio</p>
+        <div class="portfolio-loader-track" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <div id="root" aria-hidden="true"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
