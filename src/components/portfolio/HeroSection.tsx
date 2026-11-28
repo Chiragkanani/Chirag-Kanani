@@ -1,122 +1,129 @@
-import { useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { useEffect, useState, type ImgHTMLAttributes } from "react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import ProfilePhoto from "@/components/portfolio/ProfilePhoto";
+import PortfolioImage from "@/components/portfolio/PortfolioImage";
+import { caseStudyHref, projects, type ProjectItem } from "@/data/projects";
 
-const capabilities = [
-  {
-    id: "web",
-    label: "Web",
-    shortLabel: "Apps & platforms",
-    description: "Customer-facing products, business websites, and full-stack applications.",
-    projects: [
-      { name: "Arusuvai", slug: "arusuvai-cloud-kitchen" },
-      { name: "WillWolf", slug: "willwolf" },
-    ],
-  },
-  {
-    id: "mobile",
-    label: "Mobile",
-    shortLabel: "iOS & Android",
-    description: "Mobile product experiences built around real user journeys.",
-    projects: [
-      { name: "NALVS", slug: "nalvs" },
-      { name: "ActiviKid", slug: "activikid" },
-    ],
-  },
-  {
-    id: "apis",
-    label: "APIs",
-    shortLabel: "Backend & data",
-    description: "Backend services, data, payments, and integrations connected to the product.",
-    projects: [
-      { name: "WillWolf", slug: "willwolf" },
-      { name: "ActiviKid", slug: "activikid" },
-    ],
-  },
-  {
-    id: "ai",
-    label: "AI",
-    shortLabel: "Product features",
-    description: "AI features integrated into a product experience, not added for novelty.",
-    projects: [
-      { name: "NALVS", slug: "nalvs" },
-      { name: "ActiviKid", slug: "activikid" },
-    ],
-  },
-];
+const showcase = projects.filter((project) => project.tier === "featured");
+
+// React 18 only forwards the lowercase attribute name (React 19 adds `fetchPriority`).
+const highPriority = { fetchpriority: "high" } as ImgHTMLAttributes<HTMLImageElement>;
+
+const previewOf = (project: ProjectItem) => {
+  const shot = project.screenshots[0];
+  return {
+    src: shot?.src ?? project.coverImage,
+    orientation: shot?.orientation === "square" || shot?.orientation === "portrait" ? "contain" : "cover",
+  };
+};
 
 const HeroSection = () => {
-  const [activeCapabilityId, setActiveCapabilityId] = useState(capabilities[0].id);
-  const activeCapability = capabilities.find(({ id }) => id === activeCapabilityId) ?? capabilities[0];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeProject = showcase[activeIndex];
+  const preview = previewOf(activeProject);
+
+  // Warm the cache for the other previews once the page is idle, on layouts that show the preview.
+  useEffect(() => {
+    if (!window.matchMedia("(min-width: 681px)").matches) return;
+    const warm = () => {
+      showcase.slice(1).forEach((project) => {
+        const { src } = previewOf(project);
+        if (!src) return;
+        const image = new Image();
+        image.decoding = "async";
+        image.src = src;
+      });
+    };
+    // Safari has no requestIdleCallback; fall back to a delayed warm-up there.
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(warm, { timeout: 4000 });
+      return () => window.cancelIdleCallback(handle);
+    }
+    const timer = window.setTimeout(warm, 2500);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
-  <section className="hero section-wrap" id="home" aria-labelledby="hero-title">
-    <div className="hero-grid" aria-hidden="true" />
-    <div className="hero-inner">
-      <div className="hero-copy">
-        <p className="hero-kicker">
-          <ProfilePhoto className="hero-avatar" loading="eager" />
-          <span className="hero-kicker-copy">
-            <span className="hero-kicker-name">Chirag Kanani</span>
-            <span className="hero-kicker-role">Senior Full Stack Developer</span>
-          </span>
-        </p>
-        <h1 id="hero-title">I turn product ideas<br /><span>into dependable software.</span></h1>
-        <p className="hero-intro">I partner with startups, SMBs, and agencies to build web apps, mobile apps, APIs, and practical AI integrations—from MVP through production. I choose tools to fit the problem and stay accountable for the details.</p>
-        <div className="hero-actions">
-          <a className="button button-primary" href="#contact">Discuss your project <ArrowDown size={16} aria-hidden="true" /></a>
-          <a className="button button-quiet" href="#work">See selected work <ArrowUpRight size={16} aria-hidden="true" /></a>
-        </div>
-        <div className="hero-footnote">
-          <span>Open to focused freelance & contract work</span>
-          <span className="footnote-separator" aria-hidden="true" />
-          <span>Remote collaboration</span>
-        </div>
-      </div>
-
-      <div className="system-visual" role="group" aria-labelledby="capability-map-title">
-        <div className="system-head">
-          <span id="capability-map-title">Capabilities in practice</span>
-          <span className="system-live">Select an area</span>
-        </div>
-        <div className="system-canvas">
-          <div className="system-orbit orbit-one" aria-hidden="true" />
-          <div className="system-orbit orbit-two" aria-hidden="true" />
-          <div className="system-axis axis-x" aria-hidden="true" />
-          <div className="system-axis axis-y" aria-hidden="true" />
-          {capabilities.map((capability, index) => (
-            <button
-              key={capability.id}
-              type="button"
-              className={`system-node node-${capability.id}${activeCapability.id === capability.id ? " is-active" : ""}`}
-              aria-pressed={activeCapability.id === capability.id}
-              aria-controls="capability-map-detail"
-              onClick={() => setActiveCapabilityId(capability.id)}
-            >
-              <small>0{index + 1}</small>
-              <b>{capability.label}</b>
-              <span>{capability.shortLabel}</span>
-            </button>
-          ))}
-          <div className="system-core" aria-hidden="true"><i>PRODUCT<br />ENGINEERING</i></div>
-          <span className="system-mark mark-a" aria-hidden="true">01 / 04</span>
-          <span className="system-mark mark-b" aria-hidden="true">WEB · MOBILE · API</span>
-        </div>
-        <div className="system-detail" id="capability-map-detail" aria-live="polite" aria-atomic="true">
-          <p>{activeCapability.description}</p>
-          <div className="system-project-links" aria-label={`Related ${activeCapability.label} projects`}>
-            {activeCapability.projects.map((project) => (
-              <a key={project.slug} href={`#project-${project.slug}`}>
-                {project.name} <ArrowUpRight size={13} aria-hidden="true" />
-              </a>
-            ))}
+    <section className="hero section-wrap" id="home" aria-labelledby="hero-title">
+      <div className="hero-grid" aria-hidden="true" />
+      <div className="hero-inner">
+        <div className="hero-copy">
+          <div className="hero-kicker">
+            <ProfilePhoto className="hero-avatar" loading="eager" />
+            <span className="hero-kicker-copy">
+              <span className="hero-kicker-name">Chirag Kanani</span>
+              <span className="hero-kicker-role">Senior Full Stack Developer</span>
+            </span>
+          </div>
+          <h1 id="hero-title">I turn product ideas <span>into dependable software.</span></h1>
+          <p className="hero-intro">I partner with startups, SMBs, and agencies to build web apps, mobile apps, APIs, and practical AI integrations—from MVP through production. I choose tools to fit the problem and stay accountable for the details.</p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#contact">Discuss your project <ArrowRight size={16} aria-hidden="true" /></a>
+            <a className="button button-quiet" href="#work">See selected work <ArrowDown size={16} aria-hidden="true" /></a>
+          </div>
+          <div className="hero-footnote">
+            <span>Open to focused freelance & contract work</span>
+            <span className="footnote-separator" aria-hidden="true" />
+            <span>Remote collaboration</span>
           </div>
         </div>
-        <p className="system-caption">Choose a capability to jump to related project work.</p>
+
+        <div className="hero-work">
+          <div className="hero-work-head">
+            <p className="hero-work-title" id="hero-work-title">Selected work</p>
+            <span>{String(showcase.length).padStart(2, "0")} case studies</span>
+          </div>
+
+          {/* Pointer shortcut only; keyboard and screen-reader users get the same links in the list below. */}
+          <a
+            className="hero-work-preview"
+            href={caseStudyHref(activeProject.slug)}
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <span className="project-frame hero-work-frame">
+              <span className="project-frame-bar">
+                <span className="project-frame-dots"><span /><span /><span /></span>
+                <span className="project-frame-domain">{activeProject.domainLabel ?? activeProject.name}</span>
+                <span className="project-frame-counter">Open case study</span>
+              </span>
+              <span className={`hero-work-media hero-work-media--${preview.orientation}`}>
+                {preview.src && (
+                  <PortfolioImage
+                    key={activeProject.slug}
+                    src={preview.src}
+                    alt=""
+                    width={1440}
+                    height={720}
+                    loading="eager"
+                    decoding="async"
+                    {...(activeIndex === 0 ? highPriority : {})}
+                  />
+                )}
+              </span>
+            </span>
+          </a>
+
+          <ol className="hero-work-list" aria-labelledby="hero-work-title">
+            {showcase.map((project, index) => (
+              <li key={project.slug}>
+                <a
+                  className={`hero-work-item${index === activeIndex ? " is-active" : ""}`}
+                  href={caseStudyHref(project.slug)}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onFocus={() => setActiveIndex(index)}
+                >
+                  <span className="hero-work-num">{project.number}</span>
+                  <span className="hero-work-name">{project.name}</span>
+                  <span className="hero-work-type">{project.type}</span>
+                  <ArrowRight className="hero-work-arrow" size={16} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
-    </div>
-    <div className="hero-index" aria-hidden="true"><span>WEB · MOBILE · SYSTEMS</span><span>RESEARCH · BUILD</span></div>
-  </section>
+    </section>
   );
 };
 

@@ -1,27 +1,27 @@
-import arusuvaiHero from "@/assets/projects/arusuvai-hero.jpg";
-import arusuvaiMenu from "@/assets/projects/arusuvai-menu.jpg";
-import arusuvaiSubscriptions from "@/assets/projects/arusuvai-subscriptions.jpg";
-import arusuvaiCatering from "@/assets/projects/arusuvai-catering.jpg";
-import arusuvaiContact from "@/assets/projects/arusuvai-contact.jpg";
-import willwolfMarketingHomepage from "@/assets/projects/willwolf-marketing-homepage.png";
-import willwolfMobileAppSuite from "@/assets/projects/willwolf-mobile-app-suite.png";
-import willwolfRealEstateForm from "@/assets/projects/willwolf-real-estate-form.png";
-import willwolfAdminDashboard from "@/assets/projects/willwolf-admin-dashboard.png";
+import arusuvaiHero from "@/assets/projects/arusuvai-hero.webp";
+import arusuvaiMenu from "@/assets/projects/arusuvai-menu.webp";
+import arusuvaiSubscriptions from "@/assets/projects/arusuvai-subscriptions.webp";
+import arusuvaiCatering from "@/assets/projects/arusuvai-catering.webp";
+import arusuvaiContact from "@/assets/projects/arusuvai-contact.webp";
+import willwolfMarketingHomepage from "@/assets/projects/willwolf-marketing-homepage.webp";
+import willwolfMobileAppSuite from "@/assets/projects/willwolf-mobile-app-suite.webp";
+import willwolfRealEstateForm from "@/assets/projects/willwolf-real-estate-form.webp";
+import willwolfAdminDashboard from "@/assets/projects/willwolf-admin-dashboard.webp";
 import nalvsHome from "@/assets/projects/nalvs-home.webp";
 import nalvsBeautyPassport from "@/assets/projects/nalvs-beauty-passport.webp";
 import nalvsMembership from "@/assets/projects/nalvs-membership.webp";
-import nalvsAdminOverview from "@/assets/projects/nalvs-admin-overview.png";
-import nalvsMarketingHome from "@/assets/projects/nalvs-marketing-home.png";
-import activikidPlatform from "@/assets/projects/activikid-platform-overview.jpg";
-import activikidPersonalizedActivities from "@/assets/projects/activikid-personalized-activities.png";
-import activikidBookingPlatform from "@/assets/projects/activikid-booking-platform.png";
-import activikidMerchantPanel from "@/assets/projects/activikid-merchant-panel.png";
+import nalvsAdminOverview from "@/assets/projects/nalvs-admin-overview.webp";
+import nalvsMarketingHome from "@/assets/projects/nalvs-marketing-home.webp";
+import activikidPlatform from "@/assets/projects/activikid-platform-overview.webp";
+import activikidPersonalizedActivities from "@/assets/projects/activikid-personalized-activities.webp";
+import activikidBookingPlatform from "@/assets/projects/activikid-booking-platform.webp";
+import activikidMerchantPanel from "@/assets/projects/activikid-merchant-panel.webp";
 import activikidAiReport from "@/assets/projects/activikid-ai-report.webp";
 import activikidTailoredClasses from "@/assets/projects/activikid-tailored-classes.webp";
 import activikidMemberDashboard from "@/assets/projects/activikid-member-dashboard.webp";
-import onboardNowLogo from "@/assets/projects/onboardnow-logo.png";
-import onboardNowMarketingHero from "@/assets/projects/onboardnow-marketing-hero.png";
-import onboardNowDashboard from "@/assets/projects/onboardnow-dashboard.png";
+import onboardNowLogo from "@/assets/projects/onboardnow-logo.webp";
+import onboardNowMarketingHero from "@/assets/projects/onboardnow-marketing-hero.webp";
+import onboardNowDashboard from "@/assets/projects/onboardnow-dashboard.webp";
 import onboardNowSurveyJsLogo from "@/assets/projects/onboardnow-integrations/surveyjs.ico";
 import onboardNowDiditLogo from "@/assets/projects/onboardnow-integrations/didit.ico";
 import onboardNowGovernmentLogo from "@/assets/projects/onboardnow-integrations/hm-land-registry.ico";
@@ -30,17 +30,35 @@ import onboardNowMicrosoftLogo from "@/assets/projects/onboardnow-integrations/m
 import onboardNowOnlyOfficeLogo from "@/assets/projects/onboardnow-integrations/onlyoffice-64.png";
 import onboardNowAwsLogo from "@/assets/projects/onboardnow-integrations/aws-bedrock.ico";
 import onboardNowIdealPostcodesLogo from "@/assets/projects/onboardnow-integrations/ideal-postcodes.ico";
-import onlyOfficeHero from "@/assets/projects/onboardnow-integrations/reference-sites/onlyoffice-site-reference.png";
-import clioSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/clio-site-reference.png";
-import diditSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/didit-site-reference.png";
-import surveyJsHero from "@/assets/projects/onboardnow-integrations/reference-sites/surveyjs-site-reference.png";
+import onlyOfficeHero from "@/assets/projects/onboardnow-integrations/reference-sites/onlyoffice-site-reference.webp";
+import clioSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/clio-site-reference.webp";
+import diditSiteReference from "@/assets/projects/onboardnow-integrations/reference-sites/didit-site-reference.webp";
+import surveyJsHero from "@/assets/projects/onboardnow-integrations/reference-sites/surveyjs-site-reference.webp";
+import appleLogo from "@/assets/integrations/apple.png";
+import appsFlyerLogo from "@/assets/integrations/appsflyer.png";
+import claudeLogo from "@/assets/integrations/claude.png";
+import deepgramLogo from "@/assets/integrations/deepgram.png";
+import digiLockerLogo from "@/assets/integrations/digilocker.png";
+import firebaseLogo from "@/assets/integrations/firebase.png";
+import googleLogo from "@/assets/integrations/google.png";
+import googleCloudLogo from "@/assets/integrations/google-cloud.png";
+import mailtrapLogo from "@/assets/integrations/mailtrap.png";
+import mlKitLogo from "@/assets/integrations/ml-kit.png";
+import msg91Logo from "@/assets/integrations/msg91.png";
+import razorpayLogo from "@/assets/integrations/razorpay.png";
+import revenueCatLogo from "@/assets/integrations/revenuecat.png";
+import sendGridLogo from "@/assets/integrations/sendgrid.png";
+import supabaseLogo from "@/assets/integrations/supabase.png";
+import yedpayLogo from "@/assets/integrations/yedpay.png";
+import youTubeLogo from "@/assets/integrations/youtube.png";
+import { Link2, MessageSquareText, Sparkles, type LucideIcon } from "lucide-react";
 
 export interface ProjectScreenshot {
   src: string;
   alt: string;
   label: string;
   caption: string;
-  surface?: "Website" | "Member app" | "Mobile app" | "Admin panel" | "Firm dashboard" | "OnlyOffice" | "Clio" | "Didit" | "SurveyJs";
+  surface?: "Website" | "Member app" | "Mobile app" | "Admin panel" | "Firm dashboard" | "ONLYOFFICE" | "Clio" | "Didit" | "SurveyJS";
   orientation?: "portrait" | "landscape" | "square" | "collage";
 }
 
@@ -52,9 +70,13 @@ export interface ProjectLink {
 export interface ProjectIntegration {
   name: string;
   description: string;
+  /** Brand logo, taken from the service's official site. */
   logo?: string;
+  /** Shown instead of a logo for unbranded integrations. */
+  icon?: LucideIcon;
   monogram?: string;
-  url: string;
+  /** Official site. Leave out when there is none to link to; the card is then not a link. */
+  url?: string;
 }
 
 export interface ProjectItem {
@@ -181,6 +203,32 @@ export const projects: ProjectItem[] = [
       "Connected estate recordkeeping, will generation, administrative review, and beneficiary access into one product workflow.",
       "Implemented structured records for seven asset categories and multiple will-related roles.",
     ],
+    integrations: [
+      {
+        name: "Razorpay",
+        description: "Integrated for payment processing",
+        logo: razorpayLogo,
+        url: "https://razorpay.com/",
+      },
+      {
+        name: "DigiLocker",
+        description: "Integrated for identity verification",
+        logo: digiLockerLogo,
+        url: "https://www.digilocker.gov.in/",
+      },
+      {
+        name: "MSG91",
+        description: "Integrated for SMS messaging",
+        logo: msg91Logo,
+        url: "https://msg91.com/",
+      },
+      {
+        name: "Mailtrap",
+        description: "Integrated for email delivery",
+        logo: mailtrapLogo,
+        url: "https://mailtrap.io/",
+      },
+    ],
     screenshots: [
       {
         src: willwolfMarketingHomepage,
@@ -211,7 +259,7 @@ export const projects: ProjectItem[] = [
         alt: "WillWolf admin dashboard showing platform metrics, date filters, and user activity charts",
         label: "Admin Dashboard",
         caption: "An administrative overview for monitoring platform activity and membership metrics.",
-        surface: "Firm dashboard",
+        surface: "Admin panel",
         orientation: "landscape",
       },
     ],
@@ -265,6 +313,74 @@ export const projects: ProjectItem[] = [
       "Ran longer analysis and look-generation tasks as persistent backend jobs with real-time progress updates.",
       "Added privacy workflows for selfie consent, data export, account deletion, and inactive-photo cleanup.",
       "Delivered 2,700+ automated app and database tests with GitHub Actions CI.",
+    ],
+    integrations: [
+      {
+        name: "Anthropic Claude",
+        description: "Integrated for vision, chat and tool use across the AI features",
+        logo: claudeLogo,
+        url: "https://www.anthropic.com/claude",
+      },
+      {
+        name: "Deepgram",
+        description: "Integrated for speech-to-text in voice questions",
+        logo: deepgramLogo,
+        url: "https://deepgram.com/",
+      },
+      {
+        name: "Supabase",
+        description: "Integrated for the database, auth, storage, realtime and edge functions",
+        logo: supabaseLogo,
+        url: "https://supabase.com/",
+      },
+      {
+        name: "RevenueCat",
+        description: "Integrated for App Store and Google Play subscriptions",
+        logo: revenueCatLogo,
+        url: "https://www.revenuecat.com/",
+      },
+      {
+        name: "Google Cloud Run",
+        description: "Integrated to host the image service for lip and face outlines",
+        logo: googleCloudLogo,
+        url: "https://cloud.google.com/run",
+      },
+      {
+        name: "Google ML Kit",
+        description: "Integrated for on-device face detection",
+        logo: mlKitLogo,
+        url: "https://developers.google.com/ml-kit",
+      },
+      {
+        name: "Firebase",
+        description: "Integrated for analytics, crash reporting and push notifications",
+        logo: firebaseLogo,
+        url: "https://firebase.google.com/",
+      },
+      {
+        name: "AppsFlyer",
+        description: "Integrated for install attribution, with Apple's tracking prompt",
+        logo: appsFlyerLogo,
+        url: "https://www.appsflyer.com/",
+      },
+      {
+        name: "Sign in with Apple",
+        description: "Integrated for Apple sign-in",
+        logo: appleLogo,
+        url: "https://developer.apple.com/sign-in-with-apple/",
+      },
+      {
+        name: "Google Sign-In",
+        description: "Integrated for Google sign-in",
+        logo: googleLogo,
+        url: "https://developers.google.com/identity",
+      },
+      {
+        name: "Mailtrap",
+        description: "Integrated for email delivery",
+        logo: mailtrapLogo,
+        url: "https://mailtrap.io/",
+      },
     ],
     screenshots: [
       {
@@ -359,6 +475,53 @@ export const projects: ProjectItem[] = [
       "Created an expiry-aware credit ledger for bookings, cancellations, refunds, and plan expiry.",
       "Designed role-based access and lifecycle workflows for members, merchants, staff, and admins.",
       "Delivered a bilingual app backed by approximately 400 API endpoints and 90 database tables.",
+    ],
+    integrations: [
+      {
+        name: "Yedpay",
+        description: "Integrated for HKD checkout, with webhooks and status sync so credits apply once",
+        logo: yedpayLogo,
+        url: "https://www.yedpay.com/",
+      },
+      {
+        name: "Firebase Cloud Messaging",
+        description: "Integrated for push notifications and class reminders",
+        logo: firebaseLogo,
+        url: "https://firebase.google.com/products/cloud-messaging",
+      },
+      {
+        name: "SendGrid",
+        description: "Integrated for email, with one-click unsubscribe on campaigns",
+        logo: sendGridLogo,
+        url: "https://sendgrid.com/",
+      },
+      {
+        name: "EMMA SMS gateway",
+        description: "Integrated for OTP codes and promotional SMS",
+        icon: MessageSquareText,
+      },
+      {
+        name: "Google Sign-In",
+        description: "Integrated for Google sign-in",
+        logo: googleLogo,
+        url: "https://developers.google.com/identity",
+      },
+      {
+        name: "YouTube Data API",
+        description: "Integrated for video duration lookups",
+        logo: youTubeLogo,
+        url: "https://developers.google.com/youtube/v3",
+      },
+      {
+        name: "Course recommender",
+        description: "External service integrated for personalised activity recommendations",
+        icon: Sparkles,
+      },
+      {
+        name: "Universal Links & App Links",
+        description: "Integrated for deep links from notifications and shared URLs",
+        icon: Link2,
+      },
     ],
     screenshots: [
       {
@@ -548,39 +711,39 @@ export const projects: ProjectItem[] = [
         alt: "OnboardNow dashboard showing matter, client-action, signature, ID-check, task, and estimate summaries",
         label: "Firm dashboard",
         caption: "A firm dashboard overview with quick actions, estimates, and matter activity.",
-        surface: "Admin panel",
+        surface: "Firm dashboard",
         orientation: "landscape",
       },
       {
         src: onlyOfficeHero,
-        alt: "OnlyOffice document editing interface",
-        label: "OnlyOffice integration",
-        caption: "A seamless integration for browser-based document template editing.",
-        surface: "OnlyOffice",
+        alt: "ONLYOFFICE Docs website, the document editor integrated into OnboardNow",
+        label: "ONLYOFFICE integration",
+        caption: "Integrated for browser-based document template editing.",
+        surface: "ONLYOFFICE",
         orientation: "landscape",
       },
       {
         src: clioSiteReference,
-        alt: "Clio site reference",
+        alt: "Clio website, the practice-management platform integrated with OnboardNow",
         label: "Clio integration",
-        caption: "A seamless integration for firm/user sync and task-status updates.",
+        caption: "Integrated for firm/user sync and task-status updates.",
         surface: "Clio",
         orientation: "landscape",
       },
       {
         src: diditSiteReference,
-        alt: "Didit site reference",
+        alt: "Didit website, the identity-verification provider integrated into OnboardNow",
         label: "Didit integration",
-        caption: "A seamless integration for firm/user sync and task-status updates.",
+        caption: "Integrated for digital identity verification and AML screening.",
         surface: "Didit",
         orientation: "landscape",
       },
       {
         src: surveyJsHero,
-        alt: "SurveyJS form interface",
+        alt: "SurveyJS website, the form library integrated into OnboardNow",
         label: "SurveyJS integration",
-        caption: "A seamless integration for client questionnaires and forms.",
-        surface: "SurveyJs",
+        caption: "Integrated for client questionnaires and forms.",
+        surface: "SurveyJS",
         orientation: "landscape",
       }
     ],
@@ -594,3 +757,14 @@ export const projects: ProjectItem[] = [
     liveUrl: "https://onboardnow.lycium.co.uk/",
   },
 ];
+
+/** Case studies open in a dialog addressed by `#case-<slug>`, so they can be linked to and closed with Back. */
+export const CASE_STUDY_HASH_PREFIX = "#case-";
+
+export const caseStudyHref = (slug: string) => `${CASE_STUDY_HASH_PREFIX}${slug}`;
+
+export const projectFromHash = (hash: string): ProjectItem | null => {
+  if (!hash.startsWith(CASE_STUDY_HASH_PREFIX)) return null;
+  const slug = decodeURIComponent(hash.slice(CASE_STUDY_HASH_PREFIX.length));
+  return projects.find((project) => project.slug === slug) ?? null;
+};

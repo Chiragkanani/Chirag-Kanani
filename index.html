@@ -9,9 +9,8 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://chirag-kanani.vercel.app/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
+    <link rel="preload" href="/fonts/space-grotesk-latin-v22.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/dm-sans-latin-v17.woff2" as="font" type="font/woff2" crossorigin />
     <title>Chirag Kanani — Senior Full Stack Developer</title>
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chirag-kanani.vercel.app/" />
@@ -34,43 +33,209 @@
         document.documentElement.dataset.theme = "dark";
       }
     </script>
+    <script>
+      // Page loader mode, decided before first paint. First visit in a session gets the full branded intro
+      // ("has-intro"); later visits stay quiet unless loading is actually slow (see the loader script in <body>).
+      (function () {
+        var html = document.documentElement;
+        html.classList.add("is-loading");
+        try {
+          if (sessionStorage.getItem("ck-intro-seen") !== "1") html.classList.add("has-intro");
+        } catch (error) {
+          html.classList.add("has-intro");
+        }
+      })();
+    </script>
     <style>
-      :root { --loader-bg: #111411; --loader-ink: #f0f0e8; --loader-muted: #a7ada5; --loader-accent: #8da5ff; --loader-accent-border: rgba(141, 165, 255, .42); --loader-accent-soft: rgba(141, 165, 255, .2); --loader-halo: rgba(141, 165, 255, .1); --loader-track: rgba(226, 232, 223, .14); }
-      :root[data-theme="light"] { --loader-bg: #f7f8fb; --loader-ink: #17212f; --loader-muted: #475569; --loader-accent: #3156b5; --loader-accent-border: rgba(49, 86, 181, .42); --loader-accent-soft: rgba(49, 86, 181, .2); --loader-halo: rgba(49, 86, 181, .06); --loader-track: rgba(15, 23, 42, .14); }
-      #portfolio-preloader { position: fixed; inset: 0; z-index: 240; display: grid; place-items: center; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 50% 46%, var(--loader-halo), transparent 42%), var(--loader-bg); color: var(--loader-ink); opacity: 1; visibility: visible; transition: opacity .45s ease, visibility .45s ease; }
-      #portfolio-preloader.is-exiting { opacity: 0; visibility: hidden; pointer-events: none; }
-      #portfolio-preloader::before, #portfolio-preloader::after { position: absolute; z-index: -1; width: 68vmax; height: 68vmax; border-radius: 50%; content: ""; pointer-events: none; }
-      #portfolio-preloader::before { top: -34vmax; left: -20vmax; background: radial-gradient(circle, rgba(255, 255, 255, .055), rgba(255, 255, 255, .015) 38%, transparent 70%); animation: portfolio-loader-ambient-one 16s ease-in-out infinite alternate; }
-      #portfolio-preloader::after { right: -24vmax; bottom: -42vmax; background: radial-gradient(circle, rgba(180, 180, 180, .04), rgba(180, 180, 180, .01) 40%, transparent 72%); animation: portfolio-loader-ambient-two 20s ease-in-out infinite alternate; }
-      :root[data-theme="light"] #portfolio-preloader::before { background: radial-gradient(circle, rgba(49, 86, 181, .07), rgba(49, 86, 181, .015) 38%, transparent 70%); }
-      :root[data-theme="light"] #portfolio-preloader::after { background: radial-gradient(circle, rgba(15, 23, 42, .045), rgba(15, 23, 42, .01) 40%, transparent 72%); }
-      .portfolio-loader-content { position: relative; z-index: 1; display: grid; justify-items: center; gap: 14px; padding: 24px; }
-      .portfolio-loader-mark { position: relative; display: grid; place-items: center; width: 68px; height: 68px; border: 1px solid var(--loader-accent-border); border-radius: 50%; color: var(--loader-ink); font: 500 1.25rem 'Space Grotesk', sans-serif; letter-spacing: -.08em; }
-      .portfolio-loader-mark::before { position: absolute; inset: -6px; border: 1px solid transparent; border-top-color: var(--loader-accent); border-right-color: var(--loader-accent-soft); border-radius: 50%; content: ""; animation: portfolio-loader-spin 1.5s linear infinite; }
-      .portfolio-loader-brand { margin-top: 8px; color: var(--loader-ink); font: 500 .72rem 'DM Sans', sans-serif; letter-spacing: .22em; }
-      .portfolio-loader-copy { margin: 0; color: var(--loader-muted); font: 400 .76rem 'DM Sans', sans-serif; }
-      .portfolio-loader-track { position: relative; width: 154px; height: 2px; margin-top: 10px; overflow: hidden; background: var(--loader-track); }
-      .portfolio-loader-track span { position: absolute; inset: 0 auto 0 -38%; width: 38%; background: var(--loader-accent); animation: portfolio-loader-sweep 1.2s ease-in-out infinite; }
-      @keyframes portfolio-loader-spin { to { transform: rotate(360deg); } }
-      @keyframes portfolio-loader-sweep { to { transform: translateX(365%); } }
-      @keyframes portfolio-loader-ambient-one { to { transform: translate3d(16vw, 13vh, 0) scale(1.14); } }
-      @keyframes portfolio-loader-ambient-two { to { transform: translate3d(-14vw, -12vh, 0) scale(1.12); } }
-      @media (prefers-reduced-motion: reduce) { .portfolio-loader-mark::before, .portfolio-loader-track span, #portfolio-preloader::before, #portfolio-preloader::after { animation: none; } .portfolio-loader-track span { left: 0; width: 100%; } #portfolio-preloader { transition: none; } }
+      /* Fonts and loader styles live inline so the loader can paint before the main stylesheet arrives. */
+      @font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('/fonts/space-grotesk-latin-v22.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 100 1000; font-display: swap; src: url('/fonts/dm-sans-latin-v17.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      :root { --ld-bg: #111411; --ld-ink: #f0f0e8; --ld-muted: #a7ada5; --ld-accent: #8da5ff; --ld-halo: rgba(141, 165, 255, .13); --ld-line: rgba(226, 232, 223, .14); --ld-grid: rgba(201, 213, 201, .045); --ld-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+      :root[data-theme="light"] { --ld-bg: #f7f8fb; --ld-ink: #17212f; --ld-muted: #475569; --ld-accent: #3156b5; --ld-halo: rgba(49, 86, 181, .1); --ld-line: rgba(15, 23, 42, .14); --ld-grid: rgba(15, 23, 42, .045); }
+      html.is-loading { overflow: hidden; background: var(--ld-bg); }
+      #page-loader { position: fixed; inset: 0; z-index: 300; display: none; overflow: hidden; background-color: var(--ld-bg); color: var(--ld-ink); font-family: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; }
+      html.is-loading #page-loader, #page-loader.is-leaving { display: block; }
+      html.has-intro #page-loader { background-image: radial-gradient(circle at 50% 44%, var(--ld-halo), transparent 42%), linear-gradient(var(--ld-grid) 1px, transparent 1px), linear-gradient(90deg, var(--ld-grid) 1px, transparent 1px); background-size: auto, 72px 72px, 72px 72px; background-position: center; }
+      .ld-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .ld-content { position: absolute; inset: 0; display: grid; place-items: center; transition: opacity .35s ease; }
+      html:not(.has-intro) .ld-content, html:not(.has-intro) .ld-bar { opacity: 0; visibility: hidden; }
+      .ld-center { display: grid; justify-items: center; gap: 6px; padding: 24px; text-align: center; animation: ld-in .5s cubic-bezier(.16, 1, .3, 1) both; }
+      .ld-mark { position: relative; display: grid; place-items: center; width: 104px; height: 104px; margin-bottom: 20px; }
+      .ld-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+      .ld-ring circle { fill: none; stroke-width: 1.6; }
+      .ld-ring-track { stroke: var(--ld-line); }
+      .ld-ring-spin { stroke: var(--ld-accent); stroke-opacity: .28; stroke-dasharray: 14 86; transform-origin: 50% 50%; animation: ld-spin 1.4s linear infinite; }
+      .ld-ring-value { stroke: var(--ld-accent); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--ld-p, 0)); }
+      .ld-monogram { font: 500 1.875rem/1 var(--ld-display); letter-spacing: -.07em; }
+      .ld-name { margin: 0; font: 600 1.125rem/1.3 var(--ld-display); letter-spacing: -.02em; }
+      .ld-role { margin: 0; color: var(--ld-muted); font-size: .875rem; }
+      .ld-footer { position: absolute; right: clamp(20px, 5vw, 64px); bottom: clamp(28px, 6vh, 56px); left: clamp(20px, 5vw, 64px); display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+      .ld-status { color: var(--ld-muted); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+      .ld-count { display: inline-flex; align-items: flex-start; gap: 4px; font: 500 clamp(2.75rem, 7vw, 5rem)/.85 var(--ld-display); letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+      .ld-count small { margin-top: .2em; color: var(--ld-muted); font-size: .32em; letter-spacing: 0; }
+      .ld-bar { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; background: var(--ld-line); }
+      .ld-bar span { display: block; height: 100%; background: var(--ld-accent); box-shadow: 0 0 14px var(--ld-accent); transform: scaleX(calc(var(--ld-p, 0) / 100)); transform-origin: left; }
+      #page-loader.is-exiting { transform: translate3d(0, -100%, 0); transition: transform .75s cubic-bezier(.76, 0, .24, 1); }
+      #page-loader.is-exiting .ld-content { opacity: 0; transform: translate3d(0, -40px, 0); transition: opacity .35s ease, transform .6s cubic-bezier(.76, 0, .24, 1); }
+      #page-loader.is-fading { opacity: 0; transition: opacity .3s ease; }
+      @keyframes ld-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+      @keyframes ld-spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) {
+        .ld-center { animation: none; }
+        .ld-ring-spin { display: none; }
+        #page-loader.is-exiting { transform: none; opacity: 0; transition: opacity .2s linear; }
+      }
     </style>
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"Person","name":"Chirag Kanani","url":"https://chirag-kanani.vercel.app/","jobTitle":"Senior Full Stack Developer","sameAs":["https://www.linkedin.com/in/chiragkanani07/"],"knowsAbout":["Full stack development","Web application development","Mobile application development","AI-assisted software engineering","Vue.js","React.js","Node.js","Laravel","Flutter","REST APIs"]}
     </script>
   </head>
   <body>
-    <div id="portfolio-preloader" role="status" aria-label="Loading portfolio">
-      <div class="portfolio-loader-content">
-        <div class="portfolio-loader-mark" aria-hidden="true">CK</div>
-        <span class="portfolio-loader-brand">CHIRAG KANANI</span>
-        <p class="portfolio-loader-copy">Preparing Portfolio</p>
-        <div class="portfolio-loader-track" aria-hidden="true"><span></span></div>
+    <div id="page-loader" role="status" aria-live="polite">
+      <span class="ld-sr">Loading Chirag Kanani’s portfolio</span>
+      <div class="ld-content" aria-hidden="true">
+        <div class="ld-center">
+          <div class="ld-mark">
+            <svg class="ld-ring" viewBox="0 0 120 120">
+              <circle class="ld-ring-track" cx="60" cy="60" r="56" />
+              <circle class="ld-ring-spin" cx="60" cy="60" r="56" pathLength="100" />
+              <circle class="ld-ring-value" cx="60" cy="60" r="56" pathLength="100" />
+            </svg>
+            <span class="ld-monogram">CK</span>
+          </div>
+          <p class="ld-name">Chirag Kanani</p>
+          <p class="ld-role">Senior Full Stack Developer</p>
+        </div>
+        <div class="ld-footer">
+          <span class="ld-status" id="page-loader-status">Loading interface</span>
+          <span class="ld-count"><span id="page-loader-percent">0</span><small>%</small></span>
+        </div>
       </div>
+      <div class="ld-bar" aria-hidden="true"><span></span></div>
     </div>
-    <div id="root" aria-hidden="true"></div>
+    <script>
+      // Page loader: tracks real loading work (styles, fonts, app start-up, hero preview) and lifts like a
+      // curtain once everything is ready. It never holds the page longer than MAX_WAIT_MS.
+      (function () {
+        var html = document.documentElement;
+        var loader = document.getElementById("page-loader");
+        if (!loader || !html.classList.contains("is-loading")) return;
+
+        var MIN_INTRO_MS = 600;
+        var QUIET_SHOW_AFTER_MS = 350;
+        var QUIET_MIN_VISIBLE_MS = 500;
+        var MAX_WAIT_MS = 8000;
+
+        var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var introMode = html.classList.contains("has-intro");
+        var percentEl = document.getElementById("page-loader-percent");
+        var statusEl = document.getElementById("page-loader-status");
+        var startedAt = performance.now();
+        var shownAt = startedAt;
+        var eased = 0;
+        var displayed = 0;
+        var finished = false;
+        var mediaWatched = false;
+        var tasks = [
+          { id: "styles", weight: 30, label: "Loading interface", done: false },
+          { id: "fonts", weight: 20, label: "Loading typography", done: false },
+          { id: "app", weight: 35, label: "Starting up", done: false },
+          { id: "media", weight: 15, label: "Loading previews", done: false }
+        ];
+
+        function markDone(id) { for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) tasks[i].done = true; }
+        function isDone(id) { for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) return tasks[i].done; return true; }
+        function realProgress() { var total = 0; for (var i = 0; i < tasks.length; i++) if (tasks[i].done) total += tasks[i].weight; return total; }
+        function isShown() { return html.classList.contains("has-intro"); }
+        // A quiet (repeat) visit only needs styles and fonts; a visible loader waits for everything.
+        function requiredDone() { return isDone("styles") && isDone("fonts") && (!isShown() || (isDone("app") && isDone("media"))); }
+
+        if (document.fonts && document.fonts.load) {
+          Promise.all([document.fonts.load('500 1em "Space Grotesk"'), document.fonts.load('400 1em "DM Sans"')])
+            .then(function () { markDone("fonts"); }, function () { markDone("fonts"); });
+          setTimeout(function () { markDone("fonts"); }, 3000);
+        } else {
+          markDone("fonts");
+        }
+
+        // Wait for the hero preview image when it is on screen (it is hidden on phones).
+        function watchMedia() {
+          if (mediaWatched) return;
+          mediaWatched = true;
+          var image = document.querySelector(".hero-work-media img");
+          if (!image || image.complete || image.offsetParent === null) return markDone("media");
+          var done = function () { markDone("media"); };
+          image.addEventListener("load", done, { once: true });
+          image.addEventListener("error", done, { once: true });
+          setTimeout(done, 4000);
+        }
+
+        function render(value) {
+          loader.style.setProperty("--ld-p", value.toFixed(2));
+          var rounded = String(Math.round(value));
+          if (percentEl.textContent !== rounded) percentEl.textContent = rounded;
+          var label = "Ready";
+          for (var i = 0; i < tasks.length; i++) if (!tasks[i].done) { label = tasks[i].label; break; }
+          if (statusEl.textContent !== label) statusEl.textContent = label;
+        }
+
+        function finish() {
+          if (finished) return;
+          finished = true;
+          for (var i = 0; i < tasks.length; i++) tasks[i].done = true;
+          render(100);
+          try { sessionStorage.setItem("ck-intro-seen", "1"); } catch (error) {}
+          var shown = isShown();
+          var curtain = shown && !reduceMotion;
+          var exitMs = curtain ? 800 : 320;
+          setTimeout(function () {
+            loader.classList.add("is-leaving", curtain ? "is-exiting" : "is-fading");
+            html.classList.remove("is-loading");
+            if (shown) html.classList.add("is-revealing");
+            setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, exitMs);
+            setTimeout(function () { html.classList.remove("is-revealing"); }, exitMs + 1200);
+          }, shown ? 100 : 0);
+        }
+
+        function tick(now) {
+          if (finished) return;
+          try {
+            var elapsed = now - startedAt;
+            if (!isDone("styles") && getComputedStyle(html).getPropertyValue("--css-ready").trim() === "1") markDone("styles");
+            if (!isDone("app") && html.hasAttribute("data-app-ready")) markDone("app");
+            if (isDone("styles") && isDone("app")) watchMedia();
+
+            var real = realProgress();
+            // Creep forward while work is pending, so the meter never looks frozen on a slow network.
+            var creep = real < 100 ? (100 - real) * 0.5 * (1 - Math.exp(-elapsed / 2400)) : 0;
+            var target = Math.min(real < 100 ? 97 : 100, real + creep);
+            // Chase the target smoothly, and close the gap quickly once every task is done.
+            eased = reduceMotion ? target : eased + (target - eased) * (real >= 100 ? 0.5 : 0.25);
+            if (target - eased < 0.3) eased = target;
+            var value = eased;
+            // First visit: the counter runs on an ease-out clock and lands on 100 exactly at MIN_INTRO_MS.
+            if (introMode) value = Math.min(value, (1 - Math.pow(1 - Math.min(1, elapsed / MIN_INTRO_MS), 3)) * 100);
+            displayed = Math.max(displayed, value);
+            render(displayed);
+
+            if (!isShown() && !requiredDone() && elapsed > QUIET_SHOW_AFTER_MS) {
+              html.classList.add("has-intro");
+              shownAt = now;
+            }
+            var shownLongEnough = introMode || now - shownAt >= QUIET_MIN_VISIBLE_MS;
+            var ready = requiredDone() && (!isShown() || (displayed >= 100 && shownLongEnough));
+            if (ready || elapsed > MAX_WAIT_MS) return finish();
+          } catch (error) {
+            return finish();
+          }
+          requestAnimationFrame(tick);
+        }
+
+        render(0);
+        requestAnimationFrame(tick);
+      })();
+    </script>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

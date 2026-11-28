@@ -1,38 +1,43 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Moon, Sun } from "lucide-react";
+import { ArrowRight, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
+// Listed in the same order the sections appear on the page.
 const navItems = [
-  { label: "Home", href: "#home", section: "home" },
   { label: "Work", href: "#work", section: "work" },
-  { label: "Expertise", href: "#expertise", section: "expertise" },
-  { label: "Approach", href: "#approach", section: "approach" },
   { label: "Experience", href: "#experience", section: "experience" },
-  { label: "Education", href: "#education", section: "education" },
   { label: "About", href: "#about", section: "about" },
+  { label: "Services", href: "#services", section: "services" },
+  { label: "Approach", href: "#approach", section: "approach" },
 ];
+
+/** Sections without their own nav item highlight the closest related one. */
+const sectionAliases: Record<string, string> = { skills: "services" };
+
+const DESKTOP_NAV_QUERY = "(min-width: 901px)";
 
 const Navigation = () => {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
-  const { theme, setTheme } = useTheme();
-  const isLightTheme = theme === "light";
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", isLightTheme ? "#f7f8fb" : "#111411");
-  }, [isLightTheme]);
+    if (!resolvedTheme) return;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", resolvedTheme === "light" ? "#f7f8fb" : "#111411");
+  }, [resolvedTheme]);
 
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
 
-    const sections = [...navItems.map((item) => item.section), "skills", "workflow", "contact"]
+    const ids = ["home", ...navItems.map((item) => item.section), ...Object.keys(sectionAliases), "contact"];
+    const sections = ids
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(visible.target.id);
+      if (visible) setActive(sectionAliases[visible.target.id] ?? visible.target.id);
     }, { rootMargin: "-25% 0px -60% 0px", threshold: [0, 0.2, 0.5, 1] });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
@@ -62,8 +67,17 @@ const Navigation = () => {
         menuToggleRef.current?.focus();
       }
     };
+    // Widening the window past the breakpoint swaps in the desktop nav; drop the open state.
+    const desktopQuery = window.matchMedia(DESKTOP_NAV_QUERY);
+    const onBreakpointChange = () => {
+      if (desktopQuery.matches) setMenuOpen(false);
+    };
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    desktopQuery.addEventListener("change", onBreakpointChange);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      desktopQuery.removeEventListener("change", onBreakpointChange);
+    };
   }, [menuOpen]);
 
   const closeMenu = () => {
@@ -74,8 +88,18 @@ const Navigation = () => {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a className="wordmark" href="#home" onClick={() => setMenuOpen(false)} aria-label="Chirag Kanani, home"><span>Chirag Kanani</span></a>
-        <button ref={menuToggleRef} className={`menu-toggle${menuOpen ? " is-open" : ""}`} type="button" aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((open) => !open)}>
+        <a className="wordmark" href="#home" onClick={() => setMenuOpen(false)} aria-label="Chirag Kanani, home">
+          <span>Chirag Kanani</span>
+        </a>
+        <button
+          ref={menuToggleRef}
+          className={`menu-toggle${menuOpen ? " is-open" : ""}`}
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
           <span className="menu-toggle-icon" aria-hidden="true">
             <span />
             <span />
@@ -83,21 +107,25 @@ const Navigation = () => {
           </span>
         </button>
         <nav id="primary-navigation" className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
-          {navItems.map((item) => {
-            const isCurrent = active === item.section || (item.section === "approach" && active === "workflow") || (item.section === "expertise" && active === "skills");
-            return <a key={item.section} href={item.href} aria-current={isCurrent ? "location" : undefined} onClick={closeMenu}>{item.label}</a>;
-          })}
-          <a className="nav-contact" href="#contact" aria-current={active === "contact" ? "location" : undefined} onClick={closeMenu}>Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a>
+          {navItems.map((item) => (
+            <a key={item.section} href={item.href} aria-current={active === item.section ? "location" : undefined} onClick={closeMenu}>
+              {item.label}
+            </a>
+          ))}
+          <a className="nav-contact" href="#contact" aria-current={active === "contact" ? "location" : undefined} onClick={closeMenu}>
+            Let’s talk <ArrowRight size={15} aria-hidden="true" />
+          </a>
+          {/* Both icons are rendered and CSS shows the right one, so server and client markup always match. */}
           <button
             className="theme-toggle"
             type="button"
-            aria-label={`Switch to ${isLightTheme ? "dark" : "light"} theme`}
-            aria-pressed={isLightTheme}
-            title={`Switch to ${isLightTheme ? "dark" : "light"} theme`}
-            onClick={() => setTheme(isLightTheme ? "dark" : "light")}
+            aria-label="Toggle light and dark theme"
+            title="Toggle light and dark theme"
+            onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
           >
-            {isLightTheme ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
-            <span>{isLightTheme ? "Dark" : "Light"}</span>
+            <Sun className="theme-icon theme-icon--sun" size={17} aria-hidden="true" />
+            <Moon className="theme-icon theme-icon--moon" size={17} aria-hidden="true" />
+            <span className="theme-toggle-label" aria-hidden="true">Theme</span>
           </button>
         </nav>
       </div>

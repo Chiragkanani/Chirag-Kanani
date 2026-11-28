@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { ProjectItem } from "@/data/projects";
 import PortfolioImage from "@/components/portfolio/PortfolioImage";
 
 interface ProjectDetailModalProps {
+  /** The case study to show; `null` closes the dialog (with an exit animation). */
   project: ProjectItem | null;
+  /** Asks the owner to close the dialog (it controls the URL); the dialog animates out once `project` becomes null. */
   onClose: () => void;
 }
 
@@ -19,7 +21,9 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
   const galleryTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const closeTimerRef = useRef<number | null>(null);
-  const requestCloseRef = useRef<() => void>(() => {});
+  const isRenderedRef = useRef(Boolean(project));
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (closeTimerRef.current) {
@@ -28,45 +32,32 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
     }
 
     if (project) {
+      isRenderedRef.current = true;
       setRenderedProject(project);
       setIsClosing(false);
       setActiveIndex(0);
-    } else {
-      setIsClosing(false);
-      setRenderedProject(null);
-    }
-  }, [project]);
-
-  const requestClose = useCallback(() => {
-    if (isClosing) return;
-
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced) {
-      setRenderedProject(null);
-      onClose();
       return;
     }
 
+    if (!isRenderedRef.current) return;
+    const finishClose = () => {
+      isRenderedRef.current = false;
+      setIsClosing(false);
+      setRenderedProject(null);
+    };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      finishClose();
+      return;
+    }
     setIsClosing(true);
     closeTimerRef.current = window.setTimeout(() => {
       closeTimerRef.current = null;
-      setIsClosing(false);
-      setRenderedProject(null);
-      onClose();
+      finishClose();
     }, MODAL_EXIT_MS);
-  }, [isClosing, onClose]);
+  }, [project]);
 
-  requestCloseRef.current = requestClose;
-
-  useEffect(() => {
-    return () => {
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-      }
-    };
+  useEffect(() => () => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
   }, []);
 
   useEffect(() => {
@@ -83,7 +74,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        requestCloseRef.current();
+        onCloseRef.current();
         return;
       }
       if (event.key === "Tab" && dialogRef.current) {
@@ -131,7 +122,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
       window.clearTimeout(focusTimer);
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
-      previousFocusRef.current?.focus();
+      previousFocusRef.current?.focus({ preventScroll: true });
     };
   }, [renderedProject]);
 
@@ -159,7 +150,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
       className={`project-modal-backdrop${isClosing ? " is-closing" : ""}`}
       role="presentation"
       onClick={(event) => {
-        if (event.target === event.currentTarget) requestClose();
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <div
@@ -176,7 +167,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
               <span>Project {renderedProject.number}</span>
               <span>{renderedProject.category}</span>
             </p>
-            <h3 id="project-modal-title">{renderedProject.name}</h3>
+            <h2 id="project-modal-title">{renderedProject.name}</h2>
           </div>
 
           <div className="project-modal-header-actions">
@@ -204,7 +195,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
               ref={closeButtonRef}
               type="button"
               className="project-modal-close"
-              onClick={requestClose}
+              onClick={onClose}
               aria-label="Close project details"
             >
               <X size={20} aria-hidden="true" />
@@ -247,7 +238,6 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   className={`project-gallery-viewport${activeShot.orientation ? ` project-gallery-viewport--${activeShot.orientation}` : ""}`}
                   id="project-gallery-panel"
                   role={hasMultipleShots ? "tabpanel" : undefined}
-                  aria-label={hasMultipleShots ? `${activeShot.label} screenshot` : undefined}
                   aria-labelledby={hasMultipleShots ? `project-gallery-tab-${activeIndex}` : undefined}
                 >
                   <PortfolioImage
@@ -316,7 +306,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                     >
                       <PortfolioImage src={shot.src} alt="" loading="lazy" decoding="async" />
                       <span>
-                        <small>0{index + 1}</small>
+                        <small>{String(index + 1).padStart(2, "0")}</small>
                         {shot.label}
                       </span>
                     </button>
@@ -326,21 +316,91 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
             </section>
           )}
 
-          <div className="project-modal-grid">
-            <div className="project-modal-column">
+          <div className="project-modal-content">
+            <div className="project-modal-main">
               <section className="project-modal-block">
-                <h4>Overview</h4>
+                <h3>Overview</h3>
                 <p>{renderedProject.overview}</p>
               </section>
 
               <section className="project-modal-block">
-                <h4>Purpose &amp; problem</h4>
+                <h3>Purpose &amp; problem</h3>
                 <p>{renderedProject.purpose}</p>
+              </section>
+
+              <section className="project-modal-block project-contributions">
+                <h3>My contributions</h3>
+                <ul>
+                  {renderedProject.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="project-modal-block">
+                <h3>Key features</h3>
+                <ul className="project-features">
+                  {renderedProject.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </section>
+
+              {renderedProject.integrations && renderedProject.integrations.length > 0 && (
+                <section className="project-modal-block">
+                  <h3>Connected integrations</h3>
+                  <ul className="project-integration-grid">
+                    {renderedProject.integrations.map((integration) => {
+                      const Icon = integration.icon;
+                      const content = (
+                        <>
+                          <span className="project-integration-mark" aria-hidden="true">
+                            {integration.logo ? (
+                              <PortfolioImage src={integration.logo} alt="" loading="lazy" />
+                            ) : Icon ? (
+                              <Icon size={20} strokeWidth={1.75} />
+                            ) : (
+                              <span>{integration.monogram ?? integration.name.slice(0, 1)}</span>
+                            )}
+                          </span>
+                          <span className="project-integration-copy">
+                            <strong>{integration.name}</strong>
+                            <small>{integration.description}</small>
+                          </span>
+                        </>
+                      );
+
+                      return (
+                        <li key={integration.name}>
+                          {integration.url ? (
+                            <a className="project-integration-card" href={integration.url} target="_blank" rel="noreferrer">
+                              {content}
+                            </a>
+                          ) : (
+                            <div className="project-integration-card">{content}</div>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              )}
+            </div>
+
+            {/* Kept short so it can stay in view (sticky) while the main column scrolls. */}
+            <aside className="project-modal-aside" aria-label="Project details">
+              <section className="project-modal-block">
+                <h3>Technologies</h3>
+                <ul className="project-tech-list" aria-label="Technologies used">
+                  {renderedProject.technologies.map((tech) => (
+                    <li key={tech}>{tech}</li>
+                  ))}
+                </ul>
               </section>
 
               {renderedProject.links && renderedProject.links.length > 0 && (
                 <section className="project-modal-block">
-                  <h4>Project links</h4>
+                  <h3>Project links</h3>
                   <ul className="project-link-list">
                     {renderedProject.links.map((link) => (
                       <li key={link.url}>
@@ -352,66 +412,7 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   </ul>
                 </section>
               )}
-
-              <section className="project-modal-block">
-                <h4>Technologies</h4>
-                <ul className="project-tech-list" aria-label="Technologies used">
-                  {renderedProject.technologies.map((tech) => (
-                    <li key={tech}>{tech}</li>
-                  ))}
-                </ul>
-              </section>
-            </div>
-
-            <div className="project-modal-column">
-              <section className="project-modal-block">
-                <h4>Key features</h4>
-                <ul className="project-features">
-                  {renderedProject.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
-              </section>
-
-              {renderedProject.integrations && renderedProject.integrations.length > 0 && (
-                <section className="project-modal-block">
-                  <h4>Connected integrations</h4>
-                  <ul className="project-integration-grid">
-                    {renderedProject.integrations.map((integration) => (
-                      <li key={integration.name}>
-                        <a
-                          className="project-integration-card"
-                          href={integration.url}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <span className="project-integration-mark" aria-hidden="true">
-                            {integration.logo ? (
-                              <PortfolioImage src={integration.logo} alt={integration.logoAlt ?? ""} loading="lazy" />
-                            ) : (
-                              <span>{integration.monogram ?? integration.name.slice(0, 1)}</span>
-                            )}
-                          </span>
-                          <span className="project-integration-copy">
-                            <strong>{integration.name}</strong>
-                            <small>{integration.description}</small>
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
-              <section className="project-modal-block project-development">
-                <h4>Development highlights</h4>
-                <ul>
-                  {renderedProject.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
-              </section>
-            </div>
+            </aside>
           </div>
         </div>
       </div>

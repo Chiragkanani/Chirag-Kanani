@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { ArrowUpRight, Linkedin, Mail, MessageCircle, Phone, Send } from "lucide-react";
-import { contactEmail, contactPhone, whatsappUrl } from "@/data/contact";
+import { contactEmail, contactPhoneDisplay, contactPhoneHref, whatsappUrl } from "@/data/contact";
 
 type SubmissionState = "idle" | "sending" | "success" | "error" | "unconfigured";
 
@@ -17,6 +16,13 @@ const createEmailDraft = (form: HTMLFormElement) => {
     String(values.get("message") ?? ""),
   ].filter((line, index) => line || index === 3).join("\n");
   return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
+const statusMessages: Record<Exclude<SubmissionState, "idle">, string> = {
+  sending: "Sending your message…",
+  success: "Message sent. Thanks for reaching out.",
+  error: "The form could not send your message. It has not been sent.",
+  unconfigured: "The contact form is not configured here. Your message has not been sent.",
 };
 
 const ContactSection = () => {
@@ -39,11 +45,13 @@ const ContactSection = () => {
     }
     setState("sending");
     try {
+      // Loaded on demand so the email SDK stays out of the initial bundle.
+      const { default: emailjs } = await import("@emailjs/browser");
       await emailjs.sendForm(VITE_YOUR_SERVICE_ID, VITE_YOUR_TEMPLATE_ID, form, { publicKey: VITE_YOUR_PUBLIC_KEY });
       setState("success");
       setEmailDraft(null);
       setProjectType("");
-      formRef.current.reset();
+      form.reset();
     } catch (error: unknown) {
       const details: { status?: unknown; text?: unknown } = typeof error === "object" && error !== null
         ? error as { status?: unknown; text?: unknown }
@@ -57,37 +65,30 @@ const ContactSection = () => {
     }
   };
 
-  const message = {
-    idle: "Tell me what you are building and where you need support.",
-    sending: "Sending your message…",
-    success: "Message sent. Thanks for reaching out.",
-    error: "The form could not send your message. It has not been sent.",
-    unconfigured: "The contact form is not configured here. Your message has not been sent.",
-  }[state];
-
   return (
     <section className="contact-section section-wrap" id="contact" aria-labelledby="contact-title">
       <div className="contact-layout">
         <div className="contact-copy" data-reveal>
           <p className="section-index">Start a conversation</p>
-          <h2 id="contact-title">Have a project<br />to <span>move forward?</span></h2>
+          <h2 id="contact-title">Have a project to <span>move forward?</span></h2>
           <p className="contact-lede">I’m employed full-time and open to focused freelance, contract, and project-based work outside my regular hours. Tell me what you’re building, where you need support, or what’s getting in the way.</p>
           <div className="contact-direct-links">
-            <a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail} <ArrowUpRight size={18} aria-hidden="true" /></a>
-            <a className="contact-phone" href={`tel:${contactPhone}`}><Phone size={17} aria-hidden="true" />{contactPhone}</a>
+            <a className="contact-email" href={`mailto:${contactEmail}`}><Mail size={18} aria-hidden="true" />{contactEmail}</a>
+            <a className="contact-phone" href={contactPhoneHref}><Phone size={18} aria-hidden="true" />{contactPhoneDisplay}</a>
           </div>
           <div className="contact-socials">
-            <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn">
-              <Linkedin size={17} aria-hidden="true" /><span>LinkedIn</span>
+            <a href="https://www.linkedin.com/in/chiragkanani07/" target="_blank" rel="noreferrer">
+              <Linkedin size={17} aria-hidden="true" /><span>LinkedIn</span><ArrowUpRight size={14} aria-hidden="true" />
             </a>
-            <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="WhatsApp">
-              <MessageCircle size={17} aria-hidden="true" /><span>WhatsApp</span>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer">
+              <MessageCircle size={17} aria-hidden="true" /><span>WhatsApp</span><ArrowUpRight size={14} aria-hidden="true" />
             </a>
           </div>
-          <p className="contact-availability"><span className="signal-dot" /> Available for project collaboration alongside my full-time role</p>
+          <p className="contact-availability"><span className="signal-dot" aria-hidden="true" /> Available for project collaboration alongside my full-time role</p>
         </div>
-        <form className="contact-form" ref={formRef} onSubmit={handleSubmit} aria-busy={state === "sending"} data-reveal>
+        <form className="contact-form" ref={formRef} onSubmit={handleSubmit} aria-busy={state === "sending"} aria-describedby="contact-form-helper" data-reveal>
           <div className="form-heading"><span>Send a note</span><Mail size={18} aria-hidden="true" /></div>
+          <p className="form-helper" id="contact-form-helper">Tell me what you are building and where you need support.</p>
           <div className="form-pair">
             <label>Name<input name="name" autoComplete="name" required placeholder="Your name" /></label>
             <label>Email<input name="email" type="email" autoComplete="email" required placeholder="you@example.com" /></label>
@@ -104,7 +105,7 @@ const ContactSection = () => {
             {state === "sending" ? "Sending…" : "Send message"}<Send size={16} aria-hidden="true" />
           </button>
           <p className={`form-status state-${state}`} role="status" aria-live="polite">
-            {message}
+            {state === "idle" ? null : statusMessages[state]}
             {state === "error" || state === "unconfigured" ? <> <a href={emailDraft ?? `mailto:${contactEmail}`}>{emailDraft ? "Open a prefilled email" : "Email me directly"}</a>.</> : null}
           </p>
         </form>
